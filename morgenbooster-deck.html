@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designing with a vibe — Morgenbooster</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f5f5f3;
+    color: #1a1a1a;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 6vh 8vw;
+  }
+
+  .slide.active {
+    display: flex;
+  }
+
+  .slide-inner {
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  /* --- Typography --- */
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #a0a09a;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 span.dim {
+    color: #b5b5b0;
+    font-weight: 300;
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 3.5vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.25rem;
+  }
+
+  .subtitle {
+    font-size: clamp(1rem, 1.4vw, 1.25rem);
+    color: #a0a09a;
+    font-weight: 400;
+    line-height: 1.5;
+    max-width: 720px;
+  }
+
+  .meta {
+    font-size: 0.85rem;
+    color: #a0a09a;
+    font-weight: 400;
+    margin-top: 3rem;
+    letter-spacing: 0.02em;
+  }
+
+  /* --- Big quote slide --- */
+  .quote-slide {
+    text-align: left;
+  }
+
+  .quote-slide h1 {
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+    font-weight: 500;
+  }
+
+  /* --- Two col layouts --- */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .col-stack > * + * { margin-top: 0.6rem; }
+
+  .step {
+    font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+    color: #1a1a1a;
+    font-weight: 400;
+    padding: 0.4rem 0;
+    border-top: 1px solid #d5d5d0;
+    letter-spacing: -0.005em;
+  }
+
+  .step:first-child { border-top: none; padding-top: 0; }
+
+  .step.dim {
+    color: #b5b5b0;
+  }
+
+  .step.kill {
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+
+  .step.kill::before {
+    content: '×';
+    color: #1a1a1a;
+    margin-right: 0.5rem;
+  }
+
+  .step.live {
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+
+  .step.live::before {
+    content: '✓';
+    color: #1a1a1a;
+    margin-right: 0.5rem;
+  }
+
+  /* --- Product story slide (Palantir-style) --- */
+  .product-slide {
+    width: 100%;
+  }
+
+  .product-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .product-meta {
+    max-width: 460px;
+  }
+
+  .product-num {
+    font-size: 0.75rem;
+    color: #a0a09a;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.04em;
+  }
+
+  .product-tag {
+    font-size: 0.85rem;
+    color: #1a1a1a;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.02em;
+  }
+
+  .product-headline {
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+  }
+
+  .product-desc {
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    color: #6a6a66;
+    line-height: 1.55;
+    margin-bottom: 1.5rem;
+  }
+
+  .product-stat {
+    font-size: 0.8rem;
+    color: #a0a09a;
+    letter-spacing: 0.02em;
+  }
+
+  .product-name {
+    font-size: clamp(4rem, 9vw, 8rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 0.95;
+    text-align: right;
+    color: #1a1a1a;
+  }
+
+  .product-name sup {
+    font-size: 0.25em;
+    font-weight: 400;
+    color: #b5b5b0;
+    vertical-align: super;
+    margin-left: 0.1em;
+  }
+
+  /* --- Collage slide: media at natural aspect ratio --- */
+  .slide.collage-slide {
+    background: #f5f5f3;
+    padding: 4vh 4vw;
+  }
+
+  .collage {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+  }
+
+  .collage img,
+  .collage video {
+    max-height: 92vh;
+    max-width: 90vw;
+    height: auto;
+    width: auto;
+    display: block;
+  }
+
+  .collage .placeholder {
+    color: #b5b5b0;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 4rem;
+    text-align: center;
+    background: #eeeee9;
+    aspect-ratio: 3 / 4;
+    height: 92vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* --- Inverted slide --- */
+  .slide.dark {
+    background: #1a1a1a;
+    color: #f5f5f3;
+  }
+
+  .slide.dark h1 { color: #f5f5f3; }
+  .slide.dark h1 span.dim { color: #888; }
+  .slide.dark .subtitle { color: #888; }
+  .slide.dark .eyebrow { color: #666; }
+
+  /* --- Nav --- */
+  .nav {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-size: 0.7rem;
+    color: #b5b5b0;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .slide.dark ~ .nav,
+  body:has(.slide.dark.active) .nav {
+    color: #555;
+  }
+
+  .nav-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .nav-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #d5d5d0;
+    background: transparent;
+    color: #b5b5b0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    padding: 0;
+  }
+
+  .nav-btn:hover { border-color: #1a1a1a; color: #1a1a1a; }
+
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: #1a1a1a;
+    transition: width 0.3s ease;
+    z-index: 100;
+  }
+
+  /* --- Bullet list --- */
+  .bullet-list {
+    list-style: none;
+    margin-top: 1rem;
+  }
+
+  .bullet-list li {
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    color: #1a1a1a;
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .bullet-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: #b5b5b0;
+  }
+
+  /* --- JEDUF three columns --- */
+  .jeduf {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .jeduf-col {
+    border: 1px solid #e0e0db;
+    border-radius: 10px;
+    padding: 1.25rem 1.1rem 1.5rem;
+    background: #fafaf8;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .jeduf-col.hero-col {
+    background: #1a1a1a;
+    border-color: #1a1a1a;
+    color: #f5f5f3;
+  }
+
+  .jeduf-label {
+    font-size: 0.6rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #a0a09a;
+    margin-bottom: 0.4rem;
+  }
+
+  .jeduf-col.hero-col .jeduf-label { color: #888; }
+
+  .jeduf-title {
+    font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.35rem;
+  }
+
+  .jeduf-philosophy {
+    font-size: 0.7rem;
+    color: #a0a09a;
+    font-style: italic;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    min-height: 30pt;
+  }
+
+  .jeduf-col.hero-col .jeduf-philosophy { color: #ccc; }
+
+  .jeduf-step {
+    border: 1px solid #d5d5d0;
+    border-radius: 4px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-align: center;
+    background: #fff;
+    margin-bottom: 0.35rem;
+  }
+
+  .jeduf-col.hero-col .jeduf-step {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+    color: #f5f5f3;
+  }
+
+  /* --- Spec transparency --- */
+  .spec-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .spec-block-big {
+    background: #1a1a1a;
+    color: #f5f5f3;
+    border-radius: 10px;
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .spec-block-big h3 {
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  .spec-block-big p {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: #888;
+  }
+
+  .ctx-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0 0.5rem;
+  }
+
+  .ctx-label {
+    font-size: 0.7rem;
+    color: #c5c5c0;
+    margin-right: 0.4rem;
+    font-style: italic;
+  }
+
+  .ctx-pill {
+    font-size: 0.72rem;
+    color: #a0a09a;
+    background: #eeeee9;
+    border-radius: 100px;
+    padding: 0.3rem 0.85rem;
+  }
+
+  .ai-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .ai-divider .line {
+    flex: 1;
+    height: 1px;
+    background: #d5d5d0;
+  }
+
+  .ai-pill {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #a0a09a;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .outputs-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .output-card {
+    border: 1px solid #e0e0db;
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    background: #fff;
+  }
+
+  .output-card h4 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+  }
+
+  .output-card p {
+    font-size: 0.72rem;
+    color: #a0a09a;
+    line-height: 1.45;
+  }
+
+  /* --- Stack slide --- */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .stack-group {
+    border: 1px solid #e0e0db;
+    border-radius: 10px;
+    padding: 1.1rem 1.1rem 1.25rem;
+    background: #fafaf8;
+  }
+
+  .stack-group-label {
+    font-size: 0.6rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #a0a09a;
+    margin-bottom: 0.85rem;
+  }
+
+  .stack-tools {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .stack-tool {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #1a1a1a;
+  }
+
+  .stack-tool .mark {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .stack-tool .mark svg {
+    width: 100%;
+    height: 100%;
+    fill: #1a1a1a;
+  }
+
+  /* --- Scale slide: 5-dot flow + two cols --- */
+  .dot-flow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin: 4rem 0 2rem;
+    position: relative;
+  }
+
+  .dot-flow::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 8%;
+    right: 8%;
+    height: 1px;
+    background: #d5d5d0;
+  }
+
+  .dot-step {
+    text-align: center;
+    position: relative;
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    margin: 0 auto 0.85rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .dot-step h4 {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+  }
+
+  .dot-step p {
+    font-size: 0.7rem;
+    color: #a0a09a;
+    line-height: 1.4;
+    padding: 0 0.5rem;
+  }
+
+  .scale-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .scale-cols .scale-col h5 {
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #a0a09a;
+    margin-bottom: 0.75rem;
+  }
+
+  .scale-cols ul {
+    list-style: none;
+  }
+
+  .scale-cols ul li {
+    font-size: 0.82rem;
+    font-weight: 400;
+    padding: 0.4rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .scale-cols ul li .detail {
+    color: #b5b5b0;
+    font-size: 0.72rem;
+    font-weight: 300;
+  }
+
+  .scale-stat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    font-size: 0.78rem;
+    color: #a0a09a;
+  }
+
+  .scale-stat strong {
+    color: #1a1a1a;
+    font-weight: 600;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .scale-proof {
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid #e0e0db;
+  }
+
+  .scale-proof-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #a0a09a;
+    margin-bottom: 2rem;
+  }
+
+  .scale-proof-stats {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+  }
+
+  .proof-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .proof-stat strong {
+    font-size: clamp(2.4rem, 4.5vw, 3.5rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: #1a1a1a;
+  }
+
+  .proof-stat span {
+    font-size: 0.85rem;
+    color: #a0a09a;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+
+  .proof-divider {
+    width: 1px;
+    height: 40px;
+    background: #d5d5d0;
+  }
+
+  .talk-meta {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    font-size: 0.7rem;
+    color: #b5b5b0;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    z-index: 100;
+  }
+
+  /* PDF download button */
+  .pdf-btn {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+    background: #1a1a1a;
+    color: #f5f5f3;
+    border: none;
+    padding: 0.55rem 1.25rem;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 0.02em;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+
+  .pdf-btn:hover { background: #000; }
+
+  /* Print: each slide becomes one 16:9 PDF page */
+  @page {
+    size: 13.333in 7.5in;
+    margin: 0;
+  }
+
+  @media print {
+    html, body {
+      width: 13.333in;
+      height: auto !important;
+      overflow: visible !important;
+      background: #f5f5f3;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    .deck {
+      width: 13.333in;
+      height: auto;
+      position: static;
+    }
+
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      width: 13.333in !important;
+      height: 7.5in !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    .slide:last-child {
+      page-break-after: auto !important;
+      break-after: auto !important;
+    }
+
+    .slide.dark {
+      background: #1a1a1a !important;
+    }
+
+    .nav, .talk-meta, .progress, .pdf-btn {
+      display: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck">
+
+  <!-- 1. Cover -->
+  <section class="slide active">
+    <div class="slide-inner">
+      <div class="eyebrow">Morgenbooster · 13 May 2026</div>
+      <h1>Designing with a vibe.<br><span class="dim">When AI turns ideas into experiences.</span></h1>
+      <div class="meta">Nils Smed, Partner at Heyra — an AI orchestration company</div>
+    </div>
+  </section>
+
+  <!-- 2. Confession -->
+  <section class="slide quote-slide">
+    <div class="slide-inner">
+      <h1>I am not a very <span class="dim">patient person.</span></h1>
+    </div>
+  </section>
+
+  <!-- 3. The builds intro -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Last year alone</div>
+      <h1>20+ tools. <span class="dim">Some good. Some terrible.</span></h1>
+      <p class="subtitle">3x founder. Product designer by background. For most of my career, there was a frustrating gap between having an idea and having a thing that exists in the world.</p>
+    </div>
+  </section>
+
+  <!-- 4. The gap -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="two-col">
+        <div>
+          <div class="eyebrow">Act 1 — The gap</div>
+          <h2>The old way of building.</h2>
+          <p class="subtitle">Most ideas died here. Not because they were bad — because the cost of bringing them to life was too high relative to "let's see if this even works."</p>
+        </div>
+        <div class="col-stack">
+          <div class="step">Idea</div>
+          <div class="step">Sketch</div>
+          <div class="step">Figma</div>
+          <div class="step">"Cool."</div>
+          <div class="step dim">Developer needed</div>
+          <div class="step dim">Budget needed</div>
+          <div class="step dim">Timeline needed</div>
+          <div class="step dim">Meeting</div>
+          <div class="step dim">Another meeting</div>
+          <div class="step kill">Idea dies</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breaker -->
+  <section class="slide quote-slide">
+    <div class="slide-inner">
+      <h1>That felt normal. <span class="dim">Until it wasn't.</span></h1>
+    </div>
+  </section>
+
+  <!-- 5. The shift -->
+  <section class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">Act 2 — The shift</div>
+      <h1>The bottleneck <span class="dim">moved.</span></h1>
+      <p class="subtitle">It used to be: <em>can we build this?</em> Now it's just: do you have an idea and a few hours? The gap between idea and existence has collapsed.</p>
+    </div>
+  </section>
+
+  <!-- 5b. The new way -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="two-col">
+        <div>
+          <div class="eyebrow">Now</div>
+          <h2>The new way of building.</h2>
+          <p class="subtitle">Same instinct. Fewer gates. Idea to existence in a few hours.</p>
+        </div>
+        <div class="col-stack">
+          <div class="step">Idea</div>
+          <div class="step">Describe it</div>
+          <div class="step">Build with AI</div>
+          <div class="step">Ship</div>
+          <div class="step live">Idea lives</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Four builds intro -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Act 3 — The builds</div>
+      <h1>A few personal frustrations. <span class="dim">A few weekends.</span></h1>
+      <p class="subtitle">No market research. No competitor analysis. Just: this annoys me, let me fix it.</p>
+    </div>
+  </section>
+
+  <!-- 7. Unsub™ -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/01</div>
+          <div class="product-tag">10,000 unread emails</div>
+          <h3 class="product-headline">Connects to Gmail. Scans for newsletters. One big wipe.</h3>
+          <p class="product-desc">No hunting for tiny unsubscribe links at the bottom of emails. Built it because I needed it. Shipped it because maybe you do too.</p>
+          <div class="product-stat">A few hours · One weekend</div>
+        </div>
+        <div class="product-name">Unsub<sup>™</sup></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7b. Unsub collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <video src="media/unsub.mp4" controls loop playsinline></video>
+    </div>
+  </section>
+
+  <!-- 8. Nobait™ -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/02</div>
+          <div class="product-tag">"You won't believe what the PM said—"</div>
+          <h3 class="product-headline">Replaces clickbait with the actual headline.</h3>
+          <p class="product-desc">Chrome extension. Same content, no manipulation. No settings. No dashboard. No premium tier. Just headlines that tell you what happened.</p>
+          <div class="product-stat">Aggressively simple · Removes the annoying thing</div>
+        </div>
+        <div class="product-name">Nobait<sup>™</sup></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8b. Nobait collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <video src="media/nobait.mp4" controls loop playsinline></video>
+    </div>
+  </section>
+
+  <!-- 9. Wiretap™ Guardian -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/03</div>
+          <div class="product-tag">$500B–$1T global problem</div>
+          <h3 class="product-headline">Listens for scam attempts. Warns you instantly.</h3>
+          <p class="product-desc">Phone scams target regular people. Often older people. Often with no protection. Wiretap Guardian listens to calls from unverified numbers and sends an SMS warning if it suspects a scam.</p>
+          <div class="product-stat">Not perfect · A small line of defense · Genuinely proud of this one</div>
+        </div>
+        <div class="product-name">Wiretap<sup>™</sup></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9b. Wiretap Guardian collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <img src="media/wiretap-guardian.jpeg" alt="Wiretap Guardian">
+    </div>
+  </section>
+
+  <!-- 10. Acquired™ -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/04</div>
+          <div class="product-tag">"Company X acquired by Company Y." No number.</div>
+          <h3 class="product-headline">Estimates undisclosed deal prices on Danish acquisitions.</h3>
+          <p class="product-desc">Reverse-engineers the deal from the seller's holding company financials. Splits it into on-spot payment and earnout. Works surprisingly well on recent acquisitions.</p>
+          <div class="product-stat">A weekend · A fun experiment</div>
+        </div>
+        <div class="product-name">Acquired<sup>™</sup></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10b. Acquired collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <img src="media/acquired.jpeg" alt="Acquired">
+    </div>
+  </section>
+
+  <!-- 11. Explain™ -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/05</div>
+          <div class="product-tag">"I don't speak medical."</div>
+          <h3 class="product-headline">Reads my health records. Explains them in plain language.</h3>
+          <p class="product-desc">Built in a 1:1 with Anja from sundhed.dk using Cursor, on my own data. Notes, observations, language meant for professionals. Returns: what happened, what the note means, and how it matters to me.</p>
+          <div class="product-stat">No guessing · No jargon · Just plain language</div>
+        </div>
+        <div class="product-name">Explain<sup>™</sup></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11b. Explain collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <video src="media/explain.mp4" controls loop playsinline></video>
+    </div>
+  </section>
+
+  <!-- 12. Mæla™ -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/06</div>
+          <div class="product-tag">"Built with Adam. Speaks Danish. Really well."</div>
+          <h3 class="product-headline">A Danish AI voice tool that sounds human.</h3>
+          <p class="product-desc">Write a script. Pick a voice. Adjust tone, tempo, pronunciation. Add music. Get a Danish voiceover, production-ready. From radio spots to full voiceovers. 100% AI, still feels human.</p>
+          <div class="product-stat">With Adam Haxholdt · Going live soon</div>
+        </div>
+        <div class="product-name">Mæla<sup>™</sup></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12b. Mæla collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <video src="media/maela.mp4" controls loop playsinline></video>
+    </div>
+  </section>
+
+  <!-- 13. Transcribe™ -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/07</div>
+          <div class="product-tag">"I don't have anything fancy to say about this."</div>
+          <h3 class="product-headline">A free transcription tool. Upload audio or video. Get a transcript with timestamps.</h3>
+          <p class="product-desc">Community-funded. There's a shared token pool. Anyone can use it. Hopefully some people donate and pay it forward. When the pool runs out, transcriptions pause until it's topped up. No accounts. No subscriptions. No upsells. No ads. No pop-ups.</p>
+          <div class="product-stat">Free while tokens last · Community pool</div>
+        </div>
+        <div class="product-name">Transcribe<sup>™</sup></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13b. Transcribe collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <img src="media/transcribe.jpeg" alt="Transcribe">
+    </div>
+  </section>
+
+  <!-- 14. Holger™ -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/08</div>
+          <div class="product-tag">"90 people. Different roles. Different strengths."</div>
+          <h3 class="product-headline">An internal employee index that reads RFPs and generates tailored CVs.</h3>
+          <p class="product-desc">Upload a proposal or RFP. Holger reads it and generates CVs aligned to the project. Highlights relevant experience. Aligns skills to the scope. Adjusts language to context. So you don't have to.</p>
+          <div class="product-stat">Bespoke CVs ready to use · Internal tool</div>
+        </div>
+        <div class="product-name">Holger<sup>™</sup></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14b. Holger collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <video src="media/holger.mp4" controls loop playsinline></video>
+    </div>
+  </section>
+
+  <!-- 15. Unsub™ Subscriptions -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/09</div>
+          <div class="product-tag">"DKK 10,000+ a year on subscriptions."</div>
+          <h3 class="product-headline">Scans transactions. Finds paid subscriptions. Cancel from one place.</h3>
+          <p class="product-desc">875 kr a month. Small charges. Easy to miss. A tool I tried once. A service I thought I used. Something that just kept charging. Now I can stop paying for what I don't use.</p>
+          <div class="product-stat">A new feature for Unsub™</div>
+        </div>
+        <div class="product-name">Subscriptions</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15b. Unsub Subscriptions collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <video src="media/unsub-subs.mp4" controls loop playsinline></video>
+    </div>
+  </section>
+
+  <!-- 16. Flipper -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/10</div>
+          <div class="product-tag">"+847% return. Tax-free."</div>
+          <h3 class="product-headline">Tracks Copenhagen properties bought and relisted within 24 months.</h3>
+          <p class="product-desc">Shows how often properties are flipped. How long held. How prices change in between. Largest observed potential profit: 7,500,000 DKK in 453 days. Across this group: 146.6M DKK in current potential.</p>
+          <div class="product-stat">Service closed · Some people weren't happy</div>
+        </div>
+        <div class="product-name">Flipper</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16b. Flipper collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <img src="media/flipper.jpeg" alt="Flipper">
+    </div>
+  </section>
+
+  <!-- 17. Unsub™ Promos -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/11</div>
+          <div class="product-tag">"You don't read those emails."</div>
+          <h3 class="product-headline">Scans your inbox for promo codes. Pulls them out for you.</h3>
+          <p class="product-desc">Newsletters, promotions, campaigns. They just pile up. But there's still value in them: promo codes, discounts, free shipping. No reading. No digging. No scrolling through newsletters. Just value extracted, fast.</p>
+          <div class="product-stat">A new feature for Unsub™</div>
+        </div>
+        <div class="product-name">Promos</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17b. Promos collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <img src="media/unsub-promos.jpeg" alt="Unsub Promos">
+    </div>
+  </section>
+
+  <!-- 18. Wiretap™ Notes -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/12</div>
+          <div class="product-tag">"Thoughts vanish."</div>
+          <h3 class="product-headline">Call your agent. Speak. It analyzes, structures, and files them.</h3>
+          <p class="product-desc">Walking. Driving. Halfway through something else. You think "I'll remember this later," but you rarely do. Now thoughts have somewhere to go. Works on ANY phone — dumb or smart. No apps. No typing. No internet.</p>
+          <div class="product-stat">Just a phone line · Built on Wiretap™</div>
+        </div>
+        <div class="product-name">Notes</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18b. Wiretap Notes collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <img src="media/wiretap-notes.jpeg" alt="Wiretap Notes">
+    </div>
+  </section>
+
+  <!-- 19. Wiretap™ (original) -->
+  <section class="slide product-slide">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-num">/13</div>
+          <div class="product-tag">"Voicemail sucks."</div>
+          <h3 class="product-headline">AI voicemail. No menus. No 1998. Just messages, understood.</h3>
+          <p class="product-desc">Takes the message, understands context, delivers quick. Logs everything in the dashboard. AI scans for scam/sales calls, appointments, shopping requests, and more. Built because Telia, Norlys, OiSTER, Telmore, Telenor didn't bother.</p>
+          <div class="product-stat">ElevenLabs · OpenAI · Twilio · Supabase</div>
+        </div>
+        <div class="product-name">Wiretap<sup>™</sup></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19b. Wiretap original collage -->
+  <section class="slide collage-slide">
+    <div class="collage">
+      <video src="media/wiretap.mp4" controls loop playsinline></video>
+    </div>
+  </section>
+
+  <!-- Breaker -->
+  <section class="slide quote-slide">
+    <div class="slide-inner">
+      <h1>But isn't this <span class="dim">just chaos?</span></h1>
+    </div>
+  </section>
+
+  <!-- JEDUF: middle path -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">How I actually work</div>
+      <h2>Just enough design up front.</h2>
+      <p class="subtitle">Between rigid waterfall and pure chaos. The middle path is where the speed compounds without the mess.</p>
+      <div class="jeduf">
+        <div class="jeduf-col">
+          <div class="jeduf-label">Too much</div>
+          <div class="jeduf-title">Waterfall</div>
+          <div class="jeduf-philosophy">"Plan enough and you won't get hurt."</div>
+          <div class="jeduf-step">Full requirements</div>
+          <div class="jeduf-step">Full design</div>
+          <div class="jeduf-step">Full build</div>
+          <div class="jeduf-step">Big, slow release</div>
+        </div>
+        <div class="jeduf-col hero-col">
+          <div class="jeduf-label">Just right</div>
+          <div class="jeduf-title">Spec-driven</div>
+          <div class="jeduf-philosophy">"Think upfront about where you're heading, then find the path."</div>
+          <div class="jeduf-step">Define must / should / could / won't</div>
+          <div class="jeduf-step">Spec with the agent</div>
+          <div class="jeduf-step">Build + iterate</div>
+          <div class="jeduf-step">Refine + ship</div>
+        </div>
+        <div class="jeduf-col">
+          <div class="jeduf-label">Too little</div>
+          <div class="jeduf-title">Vibe coding</div>
+          <div class="jeduf-philosophy">"Dive in, YOLO mode. You'll figure it out."</div>
+          <div class="jeduf-step">Prompt something</div>
+          <div class="jeduf-step">Accept all</div>
+          <div class="jeduf-step">Prompt again</div>
+          <div class="jeduf-step">Hope for the best</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spec transparency -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">The trick</div>
+      <h2>One spec. <span class="dim">Full transparency.</span></h2>
+      <p class="subtitle">Write the idea down clearly. The agent reads it, knows the context, executes against it. The spec is what turns a few hours into something real.</p>
+      <div class="spec-flow">
+        <div class="spec-block-big">
+          <h3>The Spec</h3>
+          <p>What you want · how it should feel · what good looks like</p>
+        </div>
+        <div class="ctx-row">
+          <span class="ctx-label">draws from</span>
+          <div class="ctx-pill">Codebase</div>
+          <div class="ctx-pill">History</div>
+          <div class="ctx-pill">Standards</div>
+          <div class="ctx-pill">Your taste</div>
+        </div>
+        <div class="ai-divider">
+          <div class="line"></div>
+          <div class="ai-pill">AI orchestrates</div>
+          <div class="line"></div>
+        </div>
+        <div class="outputs-row">
+          <div class="output-card">
+            <h4>Plan</h4>
+            <p>Agent drafts the build. You approve.</p>
+          </div>
+          <div class="output-card">
+            <h4>Execute</h4>
+            <p>Agent builds against the spec. Scope stays locked.</p>
+          </div>
+          <div class="output-card">
+            <h4>Ship</h4>
+            <p>Real, clickable, usable. In hours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- At scale -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">And yes — it works at scale</div>
+      <h2>Same method. <span class="dim">Whole organisations.</span></h2>
+
+      <div class="dot-flow">
+        <div class="dot-step">
+          <div class="dot"></div>
+          <h4>Spec</h4>
+          <p>Intake & standards</p>
+        </div>
+        <div class="dot-step">
+          <div class="dot"></div>
+          <h4>Plan</h4>
+          <p>Agent drafts, human approves</p>
+        </div>
+        <div class="dot-step">
+          <div class="dot"></div>
+          <h4>Execute</h4>
+          <p>Sandboxed, spec-locked</p>
+        </div>
+        <div class="dot-step">
+          <div class="dot"></div>
+          <h4>Review</h4>
+          <p>AI first, human on substance</p>
+        </div>
+        <div class="dot-step">
+          <div class="dot"></div>
+          <h4>Deploy</h4>
+          <p>Gated to production</p>
+        </div>
+      </div>
+
+      <div class="scale-proof">
+        <div class="scale-proof-label">Proven at Novo Nordisk Foundation</div>
+        <div class="scale-proof-stats">
+          <div class="proof-stat"><strong>7×</strong><span>engineering output</span></div>
+          <div class="proof-divider"></div>
+          <div class="proof-stat"><strong>35</strong><span>use cases / week / engineer · up from 5</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The stack -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">The stack</div>
+      <h2>Built on tools <span class="dim">you already know.</span></h2>
+      <p class="subtitle">Nothing exotic. The same building blocks every modern engineering team uses — wired together so the agents have the context to actually orchestrate.</p>
+
+      <div class="stack-grid">
+
+        <div class="stack-group">
+          <div class="stack-group-label">Coding agents</div>
+          <div class="stack-tools">
+            <div class="stack-tool">
+              <span class="mark"><svg viewBox="0 0 24 24"><path d="M4 20 L12 4 L20 20 L17 20 L12 10 L7 20 Z"/></svg></span>
+              Claude Code
+            </div>
+            <div class="stack-tool">
+              <span class="mark"><svg viewBox="0 0 24 24"><path d="M9 18 L3 12 L9 6 L11 8 L7 12 L11 16 Z M15 18 L21 12 L15 6 L13 8 L17 12 L13 16 Z"/></svg></span>
+              VS Code
+            </div>
+            <div class="stack-tool">
+              <span class="mark"><svg viewBox="0 0 24 24"><path d="M5 3 L5 21 L9 17 L11 21 L13 19 L11 15 L17 15 Z"/></svg></span>
+              Cursor
+            </div>
+          </div>
+        </div>
+
+        <div class="stack-group">
+          <div class="stack-group-label">Specs &amp; tasks · source of truth</div>
+          <div class="stack-tools">
+            <div class="stack-tool">
+              <span class="mark"><svg viewBox="0 0 24 24"><path d="M4 6 L20 6 L20 9 L4 9 Z M4 11 L14 11 L14 14 L4 14 Z M4 16 L18 16 L18 19 L4 19 Z"/></svg></span>
+              Linear
+            </div>
+            <div class="stack-tool">
+              <span class="mark"><svg viewBox="0 0 24 24"><path d="M12 3 L21 12 L12 21 L3 12 Z" fill="none" stroke="#1a1a1a" stroke-width="2"/></svg></span>
+              Jira
+            </div>
+            <div class="stack-tool">
+              <span class="mark"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" fill="none" stroke="#1a1a1a" stroke-width="2"/><path d="M8 7 L16 7 M8 11 L16 11 M8 15 L13 15"/></svg></span>
+              Notion
+            </div>
+          </div>
+        </div>
+
+        <div class="stack-group">
+          <div class="stack-group-label">Source &amp; CI/CD</div>
+          <div class="stack-tools">
+            <div class="stack-tool">
+              <span class="mark"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="#fafaf8"/></svg></span>
+              GitHub
+            </div>
+            <div class="stack-tool">
+              <span class="mark"><svg viewBox="0 0 24 24"><path d="M8 5 L19 12 L8 19 Z"/></svg></span>
+              Actions
+            </div>
+            <div class="stack-tool">
+              <span class="mark"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="3"/><rect x="4" y="11" width="10" height="3"/><rect x="4" y="16" width="13" height="3"/></svg></span>
+              Sandbox → Prod
+            </div>
+          </div>
+        </div>
+
+        <div class="stack-group">
+          <div class="stack-group-label">Infra &amp; models</div>
+          <div class="stack-tools">
+            <div class="stack-tool">
+              <span class="mark"><svg viewBox="0 0 24 24"><path d="M3 18 L8 6 L13 18 Z M14 12 L18 6 L21 18 L17 18 L17 14 Z"/></svg></span>
+              Azure
+            </div>
+            <div class="stack-tool">
+              <span class="mark"><svg viewBox="0 0 24 24"><path d="M5 19 L12 5 L19 19 L15 19 L12 13 L9 19 Z"/></svg></span>
+              Anthropic
+            </div>
+            <div class="stack-tool">
+              <span class="mark"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#1a1a1a" stroke-width="2"/><circle cx="12" cy="12" r="3"/></svg></span>
+              OpenAI
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. The honest part -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Act 4 — The honest part</div>
+      <h1>Speed is not <span class="dim">the same as wisdom.</span></h1>
+      <p class="subtitle">You can now build faster than you can think. That's a new kind of risk. You can ship something that technically works but solves the wrong problem. You can fall in love with your own velocity and mistake movement for progress.</p>
+    </div>
+  </section>
+
+  <!-- 12. What AI doesn't know -->
+  <section class="slide">
+    <div class="slide-inner">
+      <h1>The AI doesn't know <span class="dim">what matters.</span></h1>
+      <ul class="bullet-list">
+        <li>It doesn't know your users.</li>
+        <li>It doesn't have taste.</li>
+        <li>It can't tell a good experience from a technically correct one.</li>
+        <li>It doesn't feel the difference.</li>
+      </ul>
+      <p class="subtitle" style="margin-top: 2rem;">That's still you.</p>
+    </div>
+  </section>
+
+  <!-- 13. Close -->
+  <section class="slide dark quote-slide">
+    <div class="slide-inner">
+      <h1>The tools changed.<br><span class="dim">The instinct is still yours.</span></h1>
+    </div>
+  </section>
+
+  <!-- 14. Thanks -->
+  <section class="slide">
+    <div class="slide-inner">
+      <h1 style="font-size: clamp(2.5rem, 5vw, 4rem);">Thanks.</h1>
+      <p class="subtitle">Questions?</p>
+      <div class="meta">Nils Smed, Partner at Heyra — an AI orchestration company</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="talk-meta">Designing with a vibe · Morgenbooster 13.05.26</div>
+
+<button class="pdf-btn" onclick="downloadPDF()">Download PDF</button>
+
+<div class="nav">
+  <span id="counter">1 / 14</span>
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="prev()">‹</button>
+    <button class="nav-btn" onclick="next()">›</button>
+  </div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  let current = 0;
+
+  function show(i) {
+    slides.forEach(s => s.classList.remove('active'));
+    slides[i].classList.add('active');
+    counter.textContent = `${i + 1} / ${slides.length}`;
+    progress.style.width = `${((i + 1) / slides.length) * 100}%`;
+    current = i;
+  }
+
+  function next() { if (current < slides.length - 1) show(current + 1); }
+  function prev() { if (current > 0) show(current - 1); }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+    if (e.key === 'Home') { show(0); }
+    if (e.key === 'End') { show(slides.length - 1); }
+    if (e.key === 'p' || e.key === 'P') { e.preventDefault(); downloadPDF(); }
+  });
+
+  function downloadPDF() {
+    const originalTitle = document.title;
+    document.title = 'morgenbooster-deck';
+    window.print();
+    setTimeout(() => { document.title = originalTitle; }, 1000);
+  }
+
+  show(0);
+</script>
+
+</body>
+</html>

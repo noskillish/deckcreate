@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heyra Design System</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f5f5f3;
+    color: #1a1a1a;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 6rem 2.5rem;
+  }
+
+  /* --- Top header --- */
+  .top-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #a0a09a;
+    margin-bottom: 1.25rem;
+  }
+
+  h1.page-title {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  h1.page-title span {
+    color: #b5b5b0;
+    font-weight: 300;
+  }
+
+  .page-intro {
+    font-size: 1rem;
+    color: #a0a09a;
+    max-width: 620px;
+    margin-bottom: 6rem;
+    line-height: 1.6;
+  }
+
+  /* --- Section --- */
+  section.demo-section {
+    margin-bottom: 5rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid #e0e0db;
+  }
+
+  section.demo-section:last-of-type {
+    border-bottom: none;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #a0a09a;
+    margin-bottom: 0.6rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-desc {
+    font-size: 0.85rem;
+    color: #a0a09a;
+    margin-bottom: 2rem;
+    max-width: 620px;
+    line-height: 1.6;
+  }
+
+  /* --- Demo frame --- */
+  .frame {
+    background: #fafaf8;
+    border: 1px dashed #d5d5d0;
+    border-radius: 10px;
+    padding: 2.5rem 2rem;
+    margin-bottom: 1rem;
+  }
+
+  /* --- Color palette --- */
+  .colors {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 0.85rem;
+  }
+
+  .color {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0db;
+  }
+
+  .swatch {
+    height: 64px;
+  }
+
+  .color-meta {
+    padding: 0.55rem 0.75rem;
+    font-size: 0.72rem;
+    background: #fff;
+  }
+
+  .color-meta strong {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.1rem;
+    color: #1a1a1a;
+  }
+
+  .color-meta span {
+    color: #a0a09a;
+  }
+
+  /* --- Typography table --- */
+  .type-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid #e0e0db;
+    align-items: baseline;
+  }
+
+  .type-row:last-child { border-bottom: 1px solid #e0e0db; }
+
+  .type-label {
+    font-size: 0.72rem;
+    color: #a0a09a;
+    font-family: 'JetBrains Mono', 'SF Mono', monospace;
+  }
+
+  .type-sample-h1 { font-size: 2.4rem; font-weight: 500; letter-spacing: -0.03em; line-height: 1.2; }
+  .type-sample-h2 { font-size: 1.75rem; font-weight: 500; letter-spacing: -0.025em; line-height: 1.2; }
+  .type-sample-h3 { font-size: 1rem; font-weight: 500; letter-spacing: -0.01em; }
+  .type-sample-body { font-size: 0.88rem; color: #a0a09a; line-height: 1.6; }
+  .type-sample-eyebrow { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; color: #a0a09a; }
+  .type-sample-num { font-size: 3rem; font-weight: 600; letter-spacing: -0.035em; line-height: 1; }
+
+  /* --- Headline pattern demo --- */
+  .headline-demo {
+    margin-bottom: 0.85rem;
+  }
+
+  .headline-demo h2 {
+    font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .headline-demo span.dim {
+    color: #b5b5b0;
+    font-weight: 300;
+  }
+
+  /* === Component demos === */
+
+  /* Eyebrow + headline + subtitle */
+  .ehs-demo .eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #a0a09a;
+    margin-bottom: 1rem;
+  }
+
+  .ehs-demo h3 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    margin-bottom: 0.6rem;
+  }
+
+  .ehs-demo h3 .dim { color: #b5b5b0; font-weight: 300; }
+
+  .ehs-demo p {
+    font-size: 0.9rem;
+    color: #a0a09a;
+    max-width: 540px;
+    line-height: 1.6;
+  }
+
+  /* Two-col */
+  .two-col-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .two-col-demo h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+
+  .two-col-demo p {
+    font-size: 0.85rem;
+    color: #a0a09a;
+    line-height: 1.6;
+  }
+
+  /* Three-col */
+  .three-col-demo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .three-col-demo h4 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+
+  .three-col-demo p {
+    font-size: 0.78rem;
+    color: #a0a09a;
+    line-height: 1.55;
+  }
+
+  /* Capability list */
+  .cap-demo {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cap-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    padding: 0.9rem 0;
+    border-top: 1px solid #e0e0db;
+    align-items: baseline;
+  }
+
+  .cap-row:last-child { border-bottom: 1px solid #e0e0db; }
+
+  .cap-q { font-size: 0.88rem; font-weight: 500; }
+  .cap-a { font-size: 0.82rem; color: #a0a09a; line-height: 1.5; }
+
+  /* Callout */
+  .callout-demo {
+    background: #1a1a1a;
+    color: #f5f5f3;
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+  }
+
+  .callout-demo h4 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .callout-demo p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: #ccc;
+  }
+
+  .callout-demo p strong {
+    color: #f5f5f3;
+    font-weight: 500;
+  }
+
+  /* Dot flow */
+  .dot-flow-demo {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    position: relative;
+  }
+
+  .dot-flow-demo::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 8%;
+    right: 8%;
+    height: 1px;
+    background: #d5d5d0;
+  }
+
+  .dot-step-demo {
+    text-align: center;
+  }
+
+  .dot-step-demo .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    margin: 0 auto 0.85rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .dot-step-demo h5 {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+  }
+
+  .dot-step-demo p {
+    font-size: 0.68rem;
+    color: #a0a09a;
+    line-height: 1.4;
+  }
+
+  /* Stack grid */
+  .stack-grid-demo {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.85rem;
+  }
+
+  .stack-card {
+    border: 1px solid #e0e0db;
+    border-radius: 10px;
+    padding: 1rem 1rem 1.1rem;
+    background: #fafaf8;
+  }
+
+  .stack-card-label {
+    font-size: 0.6rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #a0a09a;
+    margin-bottom: 0.75rem;
+  }
+
+  .stack-tool-demo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.25rem 0;
+  }
+
+  .stack-tool-demo .mark {
+    width: 14px;
+    height: 14px;
+    background: #1a1a1a;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* Spec flow demo */
+  .spec-flow-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .spec-block-demo {
+    background: #1a1a1a;
+    color: #f5f5f3;
+    border-radius: 10px;
+    padding: 1.1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .spec-block-demo h5 { font-size: 0.95rem; font-weight: 500; }
+  .spec-block-demo p { font-size: 0.78rem; color: #888; font-weight: 300; }
+
+  .ctx-row-demo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .ctx-label-demo {
+    font-size: 0.7rem;
+    color: #c5c5c0;
+    margin-right: 0.4rem;
+    font-style: italic;
+  }
+
+  .ctx-pill-demo {
+    font-size: 0.72rem;
+    color: #a0a09a;
+    background: #eeeee9;
+    border-radius: 100px;
+    padding: 0.3rem 0.85rem;
+  }
+
+  .ai-divider-demo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .ai-divider-demo .line {
+    flex: 1;
+    height: 1px;
+    background: #d5d5d0;
+  }
+
+  .ai-pill-demo {
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: #a0a09a;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .outputs-row-demo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+  }
+
+  .output-card-demo {
+    border: 1px solid #e0e0db;
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    background: #fff;
+  }
+
+  .output-card-demo h5 { font-size: 0.85rem; font-weight: 500; margin-bottom: 0.15rem; }
+  .output-card-demo p { font-size: 0.7rem; color: #a0a09a; line-height: 1.45; }
+
+  /* Product slide demo */
+  .product-demo {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .product-meta-demo {
+    max-width: 360px;
+  }
+
+  .product-num-demo {
+    font-size: 0.7rem;
+    color: #a0a09a;
+    margin-bottom: 1rem;
+    letter-spacing: 0.04em;
+  }
+
+  .product-tag-demo {
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-headline-demo {
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-bottom: 0.6rem;
+  }
+
+  .product-desc-demo {
+    font-size: 0.82rem;
+    color: #6a6a66;
+    line-height: 1.55;
+  }
+
+  .product-name-demo {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 0.95;
+    text-align: right;
+  }
+
+  /* JEDUF three columns */
+  .jeduf-demo {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr 1fr;
+    gap: 0.85rem;
+  }
+
+  .jeduf-col-demo {
+    border: 1px solid #e0e0db;
+    border-radius: 10px;
+    padding: 1rem 0.9rem 1.2rem;
+    background: #fafaf8;
+  }
+
+  .jeduf-col-demo.hero {
+    background: #1a1a1a;
+    color: #f5f5f3;
+    border-color: #1a1a1a;
+  }
+
+  .jeduf-label-demo {
+    font-size: 0.55rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #a0a09a;
+    margin-bottom: 0.4rem;
+  }
+
+  .jeduf-col-demo.hero .jeduf-label-demo { color: #888; }
+
+  .jeduf-title-demo {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+
+  .jeduf-philosophy-demo {
+    font-size: 0.65rem;
+    color: #a0a09a;
+    font-style: italic;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+    min-height: 30pt;
+  }
+
+  .jeduf-col-demo.hero .jeduf-philosophy-demo { color: #ccc; }
+
+  .jeduf-step-demo {
+    border: 1px solid #d5d5d0;
+    border-radius: 4px;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-align: center;
+    background: #fff;
+    margin-bottom: 0.3rem;
+  }
+
+  .jeduf-col-demo.hero .jeduf-step-demo {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+    color: #f5f5f3;
+  }
+
+  /* Notes */
+  .note-list {
+    list-style: none;
+    margin-top: 0.5rem;
+  }
+
+  .note-list li {
+    font-size: 0.85rem;
+    padding: 0.45rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.55;
+    color: #1a1a1a;
+  }
+
+  .note-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: #b5b5b0;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="top-eyebrow">Personal system · Nils Smed</div>
+  <h1 class="page-title">Design system. <span>Components, tokens, rules.</span></h1>
+  <p class="page-intro">A personal visual system for one-pagers, decks, and presentation pages. Light, type-led, opinionated. Most pages are a headline, two columns, and breathing room. Anything more should earn its place. Examples below reference projects this system was built around.</p>
+
+  <!-- Colors -->
+  <section class="demo-section">
+    <div class="section-label">01 · Tokens</div>
+    <h2 class="section-title">Colors</h2>
+    <p class="section-desc">Two grays do most of the work. Use color for hierarchy, not decoration.</p>
+
+    <div class="colors">
+      <div class="color"><div class="swatch" style="background: #f5f5f3"></div><div class="color-meta"><strong>#f5f5f3</strong><span>Background</span></div></div>
+      <div class="color"><div class="swatch" style="background: #fafaf8"></div><div class="color-meta"><strong>#fafaf8</strong><span>Surface (subtle)</span></div></div>
+      <div class="color"><div class="swatch" style="background: #ffffff; border-bottom: 1px solid #e0e0db"></div><div class="color-meta"><strong>#ffffff</strong><span>Surface (white)</span></div></div>
+      <div class="color"><div class="swatch" style="background: #1a1a1a"></div><div class="color-meta"><strong>#1a1a1a</strong><span>Hero / dark slide / text primary</span></div></div>
+      <div class="color"><div class="swatch" style="background: #e0e0db"></div><div class="color-meta"><strong>#e0e0db</strong><span>Border (soft)</span></div></div>
+      <div class="color"><div class="swatch" style="background: #d5d5d0"></div><div class="color-meta"><strong>#d5d5d0</strong><span>Border (medium)</span></div></div>
+      <div class="color"><div class="swatch" style="background: #eeeee9"></div><div class="color-meta"><strong>#eeeee9</strong><span>Pill background</span></div></div>
+      <div class="color"><div class="swatch" style="background: #a0a09a"></div><div class="color-meta"><strong>#a0a09a</strong><span>Text dim</span></div></div>
+      <div class="color"><div class="swatch" style="background: #b5b5b0"></div><div class="color-meta"><strong>#b5b5b0</strong><span>Text very dim</span></div></div>
+      <div class="color"><div class="swatch" style="background: #c5c5c0"></div><div class="color-meta"><strong>#c5c5c0</strong><span>Text faint</span></div></div>
+    </div>
+  </section>
+
+  <!-- Typography -->
+  <section class="demo-section">
+    <div class="section-label">02 · Tokens</div>
+    <h2 class="section-title">Typography</h2>
+    <p class="section-desc">Inter only. Weights 300, 400, 500, 600. Print uses pt; web uses rem with clamp() for fluid scaling.</p>
+
+    <div>
+      <div class="type-row">
+        <div class="type-label">H1 / display</div>
+        <div class="type-sample-h1">Spec-driven AI development.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">H2 / section</div>
+        <div class="type-sample-h2">Same method. Whole organisations.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">H3 / column</div>
+        <div class="type-sample-h3">The problem</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Body / subtitle</div>
+        <div class="type-sample-body">The bottleneck has shifted from coding to orchestration. Heyra Arc is the framework that closes the gap.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Eyebrow / label</div>
+        <div class="type-sample-eyebrow">Why now</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Big number</div>
+        <div class="type-sample-num">7×</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The headline pattern -->
+  <section class="demo-section">
+    <div class="section-label">03 · Identity</div>
+    <h2 class="section-title">The headline pattern</h2>
+    <p class="section-desc">Bold-then-dim. Anchor + extension. The most consistent visual identity in the system. Use it on every headline that has the room.</p>
+
+    <div class="frame">
+      <div class="headline-demo"><h2>Spec-driven development <span class="dim">at scale.</span></h2></div>
+      <div class="headline-demo"><h2>Heyra Arc. <span class="dim">Spec-driven AI development at scale.</span></h2></div>
+      <div class="headline-demo"><h2>One spec. <span class="dim">Full transparency.</span></h2></div>
+      <div class="headline-demo"><h2>The bottleneck <span class="dim">moved.</span></h2></div>
+      <div class="headline-demo"><h2>The tools changed. <span class="dim">The instinct is still yours.</span></h2></div>
+    </div>
+  </section>
+
+  <!-- Eyebrow + Headline + Subtitle -->
+  <section class="demo-section">
+    <div class="section-label">04 · Component</div>
+    <h2 class="section-title">Eyebrow + Headline + Subtitle</h2>
+    <p class="section-desc">The default opening of any section. Eyebrow tags context. Headline carries the message. Subtitle gives one line of nuance.</p>
+
+    <div class="frame">
+      <div class="ehs-demo">
+        <div class="eyebrow">Why, how, what</div>
+        <h3>From spec <span class="dim">to production.</span></h3>
+        <p>One framework across four pillars. Agile ways of working, spec-driven development, tooling pipeline, and AI-enhanced code review.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Two-column -->
+  <section class="demo-section">
+    <div class="section-label">05 · Component</div>
+    <h2 class="section-title">Two-column (problem / fix)</h2>
+    <p class="section-desc">Equal columns, gap 30–40pt. Each column has H4 + paragraph. Use for contrast: before/after, problem/solution, today/with-us.</p>
+
+    <div class="frame">
+      <div class="two-col-demo">
+        <div>
+          <h4>The problem</h4>
+          <p>LLMs solved the coding. Nobody solved the orchestration around it. Specs, review, deployment. That's where teams stall.</p>
+        </div>
+        <div>
+          <h4>The fix</h4>
+          <p>Heyra Arc. A spec-driven AI development framework. Shared standards, automated pipelines, and agents that handle the scaffolding.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Three-column -->
+  <section class="demo-section">
+    <div class="section-label">06 · Component</div>
+    <h2 class="section-title">Three-column (why / how / what)</h2>
+    <p class="section-desc">Three equal columns. Used for structural breakdowns. Each column gets a 1-word title and 1–2 sentences of body.</p>
+
+    <div class="frame">
+      <div class="three-col-demo">
+        <div>
+          <h4>Why</h4>
+          <p>The bottleneck shifted. Writing code is easy now. Everything around it is where teams lose speed.</p>
+        </div>
+        <div>
+          <h4>How</h4>
+          <p>One framework across four pillars. Agile, spec-driven development, tooling pipeline, AI-enhanced review.</p>
+        </div>
+        <div>
+          <h4>What</h4>
+          <p>Your teams aligned on one pipeline, shipping with confidence. Foundation in place in 8 weeks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capability list -->
+  <section class="demo-section">
+    <div class="section-label">07 · Component</div>
+    <h2 class="section-title">Capability list (Q&amp;A)</h2>
+    <p class="section-desc">Rows separated by thin borders. Question on the left (medium weight). Answer on the right (regular, dim). Used for "what it solves" sections.</p>
+
+    <div class="frame">
+      <div class="cap-demo">
+        <div class="cap-row">
+          <div class="cap-q">New project?</div>
+          <div class="cap-a">Push a button, get a repo with CI/CD, agents, and environments pre-configured.</div>
+        </div>
+        <div class="cap-row">
+          <div class="cap-q">Teams pulling in different directions?</div>
+          <div class="cap-a">One shared wiki, one set of standards, one pipeline.</div>
+        </div>
+        <div class="cap-row">
+          <div class="cap-q">PR review bottleneck?</div>
+          <div class="cap-a">Audit agents handle the groundwork. Humans review what matters.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Callout -->
+  <section class="demo-section">
+    <div class="section-label">08 · Component</div>
+    <h2 class="section-title">Callout (dark block)</h2>
+    <p class="section-desc">Black background, white text, rounded 6pt. For "Why now" or other emphasized sections. One per page max — too many and the emphasis stops working.</p>
+
+    <div class="frame">
+      <div class="callout-demo">
+        <h4>Why now</h4>
+        <p>Coding agents are already in the building. Most organisations have teams experimenting with them. <strong>The gap isn't adoption. It's orchestration.</strong> Without shared standards and a deployment pipeline, more agents just means more mess.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dot flow -->
+  <section class="demo-section">
+    <div class="section-label">09 · Component</div>
+    <h2 class="section-title">Dot flow</h2>
+    <p class="section-desc">N horizontal steps connected by a thin line. Each step: 9px black dot, label, dim caption. Used for process flows.</p>
+
+    <div class="frame">
+      <div class="dot-flow-demo">
+        <div class="dot-step-demo"><div class="dot"></div><h5>Spec</h5><p>Intake & standards</p></div>
+        <div class="dot-step-demo"><div class="dot"></div><h5>Plan</h5><p>Agent drafts, human approves</p></div>
+        <div class="dot-step-demo"><div class="dot"></div><h5>Execute</h5><p>Sandboxed, spec-locked</p></div>
+        <div class="dot-step-demo"><div class="dot"></div><h5>Review</h5><p>AI first, human on substance</p></div>
+        <div class="dot-step-demo"><div class="dot"></div><h5>Deploy</h5><p>Gated to production</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stack grid -->
+  <section class="demo-section">
+    <div class="section-label">10 · Component</div>
+    <h2 class="section-title">Stack grid</h2>
+    <p class="section-desc">Four-column grid of category cards. Each card has uppercase label + tools with small monochrome SVG marks. Used to show "the stack."</p>
+
+    <div class="frame">
+      <div class="stack-grid-demo">
+        <div class="stack-card">
+          <div class="stack-card-label">Coding agents</div>
+          <div class="stack-tool-demo"><span class="mark"></span>Claude Code</div>
+          <div class="stack-tool-demo"><span class="mark"></span>VS Code</div>
+          <div class="stack-tool-demo"><span class="mark"></span>Cursor</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-card-label">Specs &amp; tasks</div>
+          <div class="stack-tool-demo"><span class="mark"></span>Linear</div>
+          <div class="stack-tool-demo"><span class="mark"></span>Jira</div>
+          <div class="stack-tool-demo"><span class="mark"></span>Notion</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-card-label">Source &amp; CI/CD</div>
+          <div class="stack-tool-demo"><span class="mark"></span>GitHub</div>
+          <div class="stack-tool-demo"><span class="mark"></span>Actions</div>
+          <div class="stack-tool-demo"><span class="mark"></span>Sandbox → Prod</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-card-label">Infra &amp; models</div>
+          <div class="stack-tool-demo"><span class="mark"></span>Azure</div>
+          <div class="stack-tool-demo"><span class="mark"></span>Anthropic</div>
+          <div class="stack-tool-demo"><span class="mark"></span>OpenAI</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spec flow -->
+  <section class="demo-section">
+    <div class="section-label">11 · Component</div>
+    <h2 class="section-title">Spec block + context + outputs</h2>
+    <p class="section-desc">Vertical flow: dark spec block at top → context pills with "draws from" prefix → "AI orchestrates" divider → three output cards. Shows how a system processes input.</p>
+
+    <div class="frame">
+      <div class="spec-flow-demo">
+        <div class="spec-block-demo">
+          <h5>The Spec</h5>
+          <p>Anyone writes it — everything else follows</p>
+        </div>
+        <div class="ctx-row-demo">
+          <span class="ctx-label-demo">draws from</span>
+          <span class="ctx-pill-demo">Codebase</span>
+          <span class="ctx-pill-demo">History</span>
+          <span class="ctx-pill-demo">Standards</span>
+          <span class="ctx-pill-demo">Dependencies</span>
+        </div>
+        <div class="ai-divider-demo">
+          <div class="line"></div>
+          <span class="ai-pill-demo">AI orchestrates</span>
+          <div class="line"></div>
+        </div>
+        <div class="outputs-row-demo">
+          <div class="output-card-demo"><h5>Tickets</h5><p>Auto-populated, synced in real time.</p></div>
+          <div class="output-card-demo"><h5>Execution</h5><p>Agents start building immediately.</p></div>
+          <div class="output-card-demo"><h5>Review &amp; deploy</h5><p>Pipeline gates every merge.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product slide -->
+  <section class="demo-section">
+    <div class="section-label">12 · Component</div>
+    <h2 class="section-title">Product slide (Palantir style)</h2>
+    <p class="section-desc">Big product name on the right. Description on the left with /0n number, tag, headline, body. Used for product overviews and storytelling about builds.</p>
+
+    <div class="frame">
+      <div class="product-demo">
+        <div class="product-meta-demo">
+          <div class="product-num-demo">/01</div>
+          <div class="product-tag-demo">10,000 unread emails</div>
+          <div class="product-headline-demo">Connects to Gmail. Scans for newsletters. One big wipe.</div>
+          <p class="product-desc-demo">No hunting for tiny unsubscribe links. Built it because I needed it. Shipped it because maybe you do too.</p>
+        </div>
+        <div class="product-name-demo">Unsub<sup style="font-size: 0.25em; font-weight: 400; color: #b5b5b0">™</sup></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JEDUF -->
+  <section class="demo-section">
+    <div class="section-label">13 · Component</div>
+    <h2 class="section-title">JEDUF three-column</h2>
+    <p class="section-desc">Three columns showing extremes vs middle path. Outer columns light. Center column dark as the hero. Steps stacked vertically inside each column.</p>
+
+    <div class="frame">
+      <div class="jeduf-demo">
+        <div class="jeduf-col-demo">
+          <div class="jeduf-label-demo">Too much</div>
+          <div class="jeduf-title-demo">Waterfall</div>
+          <div class="jeduf-philosophy-demo">"Plan enough and you won't get hurt."</div>
+          <div class="jeduf-step-demo">Full requirements</div>
+          <div class="jeduf-step-demo">Full design</div>
+          <div class="jeduf-step-demo">Full build</div>
+          <div class="jeduf-step-demo">Big release</div>
+        </div>
+        <div class="jeduf-col-demo hero">
+          <div class="jeduf-label-demo">Just right</div>
+          <div class="jeduf-title-demo">Spec-driven</div>
+          <div class="jeduf-philosophy-demo">"Think upfront about where you're heading, then find the path."</div>
+          <div class="jeduf-step-demo">Define must / should / could / won't</div>
+          <div class="jeduf-step-demo">Spec with the agent</div>
+          <div class="jeduf-step-demo">Build + iterate</div>
+          <div class="jeduf-step-demo">Refine + ship</div>
+        </div>
+        <div class="jeduf-col-demo">
+          <div class="jeduf-label-demo">Too little</div>
+          <div class="jeduf-title-demo">Vibe coding</div>
+          <div class="jeduf-philosophy-demo">"Dive in, YOLO mode. You'll figure it out."</div>
+          <div class="jeduf-step-demo">Prompt something</div>
+          <div class="jeduf-step-demo">Accept all</div>
+          <div class="jeduf-step-demo">Prompt again</div>
+          <div class="jeduf-step-demo">Hope for the best</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tone & Voice -->
+  <section class="demo-section">
+    <div class="section-label">14 · Rules</div>
+    <h2 class="section-title">Tone &amp; voice</h2>
+    <p class="section-desc">Opinions. Lean into them. The voice is part of the design.</p>
+
+    <ul class="note-list">
+      <li>Bold the keyword. Dim the rest. That's the rhythm of every headline.</li>
+      <li>No em-dashes in body copy. Use periods or split into shorter sentences.</li>
+      <li>If a sentence doesn't add information, delete it.</li>
+      <li>Use the names. <strong>Heyra Arc, Heyra Code, Heyra Core.</strong> Not "the framework."</li>
+      <li>Spec-driven AI development. That's the term.</li>
+      <li>Numbers should be specific. <strong>7×</strong> beats "huge gains." <strong>35 use cases / week / engineer</strong> beats "much faster."</li>
+      <li>Headlines are statements, not questions. Q&amp;A rows are an exception — the question is the format.</li>
+    </ul>
+  </section>
+
+  <!-- Page formats -->
+  <section class="demo-section">
+    <div class="section-label">15 · Formats</div>
+    <h2 class="section-title">Page formats</h2>
+    <p class="section-desc">Three canonical formats. Each has its own conventions.</p>
+
+    <div class="three-col-demo">
+      <div>
+        <h4>Slide deck</h4>
+        <p>Single HTML, one slide per section. Arrow keys navigate. Light slides default; dark for emphasis. Progress bar top, counter bottom-right.</p>
+      </div>
+      <div>
+        <h4>A4 one-pager</h4>
+        <p>Fixed 210mm × 297mm. <code>@page { size: A4; margin: 0 }</code>. Sizing in pt for consistent print. <code>justify-content: space-evenly</code> distributes sections.</p>
+      </div>
+      <div>
+        <h4>Web overview</h4>
+        <p>Long-form layout, max-width 1100–1200px. Hero headline, then rows of products/sections. Used for landing-page style content.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
