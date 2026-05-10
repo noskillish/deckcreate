@@ -50,6 +50,7 @@
   }
 
   .slide.active { display: flex; }
+  .slide.hidden-slide { display: none !important; }
   .slide-inner { width: 100%; max-width: 1100px; }
 
   /* --- Dark slides --- */
@@ -321,6 +322,228 @@
     font-weight: 300;
   }
 
+  /* --- Mæla split slide (solid style) --- */
+  .maela-split-slide { background: var(--bg) !important; padding: 4vh 4vw !important; }
+  .maela-split-slide.active { display: flex; align-items: center; justify-content: center; }
+  .maela-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 1100px;
+    height: 75vh;
+  }
+  .maela-panel { border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+  .maela-interface {
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .maela-video { background: #000; align-items: center; justify-content: center; }
+  .maela-video video { width: 100%; height: 100%; object-fit: cover; }
+  .maela-chrome {
+    display: flex; align-items: center; gap: 6px;
+    padding: 10px 14px; background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .maela-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+  .maela-title {
+    font-size: 0.65rem; color: rgba(255,255,255,0.4); margin-left: 8px;
+    font-family: 'SF Mono', 'Consolas', monospace; font-weight: 400; letter-spacing: 0.04em;
+  }
+  .maela-body { flex: 1; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+  .maela-section { display: flex; flex-direction: column; gap: 0.35rem; }
+  .maela-label {
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35); font-weight: 500;
+  }
+  .maela-textarea {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+    padding: 0.85rem; font-size: 0.78rem; line-height: 1.7; color: #f0f0f0; min-height: 80px;
+    font-family: inherit;
+  }
+  .maela-tag {
+    background: rgba(255,255,255,0.1); color: #f0f0f0; padding: 1px 6px; border-radius: 4px;
+    font-size: 0.65rem; font-weight: 500; border: 1px solid rgba(255,255,255,0.14);
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+  .maela-select {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+    padding: 0.6rem 0.85rem; font-size: 0.78rem; color: #f0f0f0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .maela-chevron { color: rgba(255,255,255,0.3); font-size: 0.7rem; }
+  .maela-btn {
+    background: rgba(255,255,255,0.08); color: #f0f0f0; border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 6px; padding: 0.65rem 1.25rem; font-size: 0.75rem; font-weight: 500;
+    cursor: pointer; align-self: flex-start; letter-spacing: 0.01em;
+    transition: background 0.2s;
+  }
+  .maela-player {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+    padding: 1rem; margin-top: auto;
+    display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .maela-player-top { display: flex; align-items: center; gap: 0.75rem; }
+  .maela-play {
+    width: 28px; height: 28px; background: rgba(255,255,255,0.1); color: #f0f0f0;
+    border: 1px solid rgba(255,255,255,0.14); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 0.6rem; flex-shrink: 0;
+  }
+  .maela-waveform { flex: 1; display: flex; align-items: flex-end; gap: 3px; height: 36px; }
+  .maela-wave-bar {
+    flex: 1; background: rgba(255,255,255,0.12); border-radius: 1px; min-height: 3px;
+  }
+  .maela-wave-bar.active { background: rgba(255,255,255,0.5); }
+  .maela-time { font-size: 0.6rem; color: rgba(255,255,255,0.3); flex-shrink: 0; font-family: 'SF Mono', monospace; }
+  .maela-sfx-track {
+    position: relative; height: 22px; margin-top: 0;
+    border-top: 1px dashed rgba(255,255,255,0.06);
+    padding-top: 4px;
+  }
+  .maela-sfx-marker {
+    position: absolute; top: 3px; font-size: 0.55rem; color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.05); padding: 1px 5px; border-radius: 3px; font-weight: 500;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .maela-hint {
+    font-size: 0.6rem; color: rgba(255,255,255,0.25); line-height: 1.5; margin-top: -0.25rem;
+  }
+  .maela-tag-inline {
+    font-family: 'SF Mono', 'Consolas', monospace; font-size: 0.58rem;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    padding: 0 4px; border-radius: 3px; color: rgba(255,255,255,0.35);
+  }
+  .maela-estimate {
+    font-size: 0.6rem; color: rgba(255,255,255,0.3);
+    font-family: 'SF Mono', 'Consolas', monospace; letter-spacing: 0.02em;
+  }
+  .maela-export {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.6rem 0.85rem;
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+  }
+  .maela-export-label {
+    font-size: 0.7rem; color: rgba(255,255,255,0.5); font-weight: 500;
+  }
+  .maela-export-formats { display: flex; gap: 4px; }
+  .maela-format {
+    font-size: 0.6rem; padding: 3px 8px; border-radius: 4px;
+    color: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.08);
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+  .maela-format.active {
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6);
+    border-color: rgba(255,255,255,0.14);
+  }
+  .maela-music-track {
+    position: relative; height: 30px; margin-top: 2px;
+    background: rgba(255,255,255,0.02); border-radius: 4px;
+    display: flex; align-items: center; padding: 0 8px; gap: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .maela-music-play {
+    width: 20px; height: 20px; border-radius: 50%; font-size: 0.45rem;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;
+  }
+  .maela-music-bar {
+    flex: 1; height: 4px; border-radius: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.04) 100%);
+  }
+  .maela-music-select {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 0.55rem; color: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+  .maela-music-select .maela-chevron { font-size: 0.5rem; color: rgba(255,255,255,0.2); }
+  .maela-ab {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .maela-ab-btn {
+    width: 24px; height: 24px; border-radius: 50%; font-size: 0.6rem; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.25);
+    background: transparent;
+  }
+  .maela-ab-btn.active {
+    background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6);
+    border-color: rgba(255,255,255,0.2);
+  }
+  .maela-ab-label {
+    font-size: 0.55rem; color: rgba(255,255,255,0.2);
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+
+  /* --- Gap slide (cascade, craft) --- */
+  .gap-slide { background: var(--bg) !important; }
+  .gap-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .gap-text h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 400; letter-spacing: -0.03em; margin-bottom: 1rem; color: var(--text); }
+  .gap-cascade {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+  }
+  .gap-step {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text);
+    border-left: 1px solid var(--border-strong);
+  }
+  .gap-num {
+    font-family: 'SF Mono', 'Consolas', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    min-width: 1.2rem;
+  }
+  .gap-step.s1 { opacity: 1; }
+  .gap-step.s2 { opacity: 0.9; }
+  .gap-step.s3 { opacity: 0.8; }
+  .gap-step.s4 { opacity: 0.7; border-left-color: var(--border); }
+  .gap-step.s5 { opacity: 0.5; border-left-color: var(--border); padding-left: 1.5rem; }
+  .gap-step.s6 { opacity: 0.4; border-left-color: var(--border); padding-left: 2rem; }
+  .gap-step.s7 { opacity: 0.3; border-left-color: var(--border); padding-left: 2.5rem; }
+  .gap-step.s8 { opacity: 0.22; border-left-color: var(--border); padding-left: 3rem; }
+  .gap-step.s9 { opacity: 0.15; border-left-color: var(--border); padding-left: 3.5rem; }
+  .gap-step.s10 {
+    opacity: 0.8;
+    color: var(--accent);
+    border-left: 2px solid var(--accent);
+    padding-left: 4rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+  }
+  .gap-step.s10 .gap-num { color: var(--accent); font-weight: 600; }
+
+  /* Clean cascade — all visible, final step highlighted */
+  .gap-step.n5, .gap-step.n4, .gap-step.n3, .gap-step.n2 {
+    opacity: 1;
+    border-left-color: var(--border-strong);
+  }
+  .gap-step.n1 {
+    opacity: 1;
+    color: #3a7;
+    border-left: 2px solid #3a7;
+    font-weight: 500;
+    margin-top: 0.25rem;
+  }
+  .gap-step.n1 .gap-num { color: #3a7; font-weight: 600; }
+
   .collage .placeholder {
     color: var(--text-faint);
     font-size: 0.85rem;
@@ -569,25 +792,25 @@
   </section>
 
   <!-- 4. The gap -->
-  <section class="slide">
+  <section class="slide gap-slide">
     <div class="slide-inner">
-      <div class="two-col">
-        <div>
+      <div class="gap-layout">
+        <div class="gap-text">
           <div class="eyebrow">Act 1 — The gap</div>
           <h2>The old way of building.</h2>
-          <p class="subtitle">Most ideas died here. Not because they were bad — because the cost of bringing them to life was too high relative to "let's see if this even works."</p>
+          <p class="subtitle">Most ideas died here. Not because they were bad — because the cost was too high relative to "let's see if this even works."</p>
         </div>
-        <div class="col-stack">
-          <div class="step">Idea</div>
-          <div class="step">Sketch</div>
-          <div class="step">Figma</div>
-          <div class="step">"Cool."</div>
-          <div class="step dim">Developer needed</div>
-          <div class="step dim">Budget needed</div>
-          <div class="step dim">Timeline needed</div>
-          <div class="step dim">Meeting</div>
-          <div class="step dim">Another meeting</div>
-          <div class="step kill">Idea dies</div>
+        <div class="gap-cascade">
+          <div class="gap-step s1"><span class="gap-num">01</span> Idea</div>
+          <div class="gap-step s2"><span class="gap-num">02</span> Sketch</div>
+          <div class="gap-step s3"><span class="gap-num">03</span> Figma</div>
+          <div class="gap-step s4"><span class="gap-num">04</span> "Cool."</div>
+          <div class="gap-step s5"><span class="gap-num">05</span> Developer needed</div>
+          <div class="gap-step s6"><span class="gap-num">06</span> Budget needed</div>
+          <div class="gap-step s7"><span class="gap-num">07</span> Timeline needed</div>
+          <div class="gap-step s8"><span class="gap-num">08</span> Meeting</div>
+          <div class="gap-step s9"><span class="gap-num">09</span> Another meeting</div>
+          <div class="gap-step s10"><span class="gap-num">×</span> Idea dies</div>
         </div>
       </div>
     </div>
@@ -610,20 +833,20 @@
   </section>
 
   <!-- 5b. The new way -->
-  <section class="slide">
+  <section class="slide gap-slide">
     <div class="slide-inner">
-      <div class="two-col">
-        <div>
+      <div class="gap-layout">
+        <div class="gap-text">
           <div class="eyebrow">Now</div>
           <h2>The new way of building.</h2>
           <p class="subtitle">Same instinct. Fewer gates. Idea to existence in a few hours.</p>
         </div>
-        <div class="col-stack">
-          <div class="step">Idea</div>
-          <div class="step">Describe it</div>
-          <div class="step">Build with AI</div>
-          <div class="step">Ship</div>
-          <div class="step live">Idea lives</div>
+        <div class="gap-cascade">
+          <div class="gap-step n5"><span class="gap-num">01</span> Idea</div>
+          <div class="gap-step n4"><span class="gap-num">02</span> Describe it</div>
+          <div class="gap-step n3"><span class="gap-num">03</span> Build with AI</div>
+          <div class="gap-step n2"><span class="gap-num">04</span> Ship</div>
+          <div class="gap-step n1"><span class="gap-num">✓</span> Idea lives</div>
         </div>
       </div>
     </div>
@@ -679,7 +902,7 @@
   </section>
 
   <!-- 17. Unsub™ Promos -->
-  <section class="slide product-slide" style="--painting: url('media/KMS3679.jpg')">
+  <section class="slide product-slide hidden-slide" style="--painting: url('media/KMS3679.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -694,7 +917,7 @@
     </div>
   </section>
 
-  <section class="slide collage-slide">
+  <section class="slide collage-slide hidden-slide">
     <div class="collage"><img src="media/unsub-promos.jpeg" alt="Unsub Promos"></div>
   </section>
 
@@ -779,7 +1002,7 @@
   </section>
 
   <!-- 10. Acquired™ -->
-  <section class="slide product-slide" style="--painting: url('media/KMS3488.jpg')">
+  <section class="slide product-slide hidden-slide" style="--painting: url('media/KMS3488.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -794,7 +1017,7 @@
     </div>
   </section>
 
-  <section class="slide collage-slide">
+  <section class="slide collage-slide hidden-slide">
     <div class="collage"><img src="media/acquired.jpeg" alt="Acquired"></div>
   </section>
 
@@ -834,8 +1057,99 @@
     </div>
   </section>
 
-  <section class="slide collage-slide">
-    <div class="collage"><video src="media/maela.mp4" controls loop playsinline></video></div>
+  <section class="slide maela-split-slide">
+    <div class="maela-split">
+      <div class="maela-panel maela-interface">
+        <div class="maela-chrome">
+          <div class="maela-dot"></div>
+          <div class="maela-dot"></div>
+          <div class="maela-dot"></div>
+          <span class="maela-title">Mæla™</span>
+        </div>
+        <div class="maela-body">
+          <div class="maela-section">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <label class="maela-label">Manuskript</label>
+              <span class="maela-estimate">~8 sek · 24 ord</span>
+            </div>
+            <div class="maela-textarea">
+              <span>Dette er en stemmeprøve. </span>
+              <span class="maela-tag">[hviskende]</span>
+              <span> Kan du høre forskellen? </span>
+              <span class="maela-tag">[forførende]</span>
+              <span> Selvfølgelig kan du det.</span>
+            </div>
+            <div class="maela-hint">Tilføj audio tags med <span class="maela-tag-inline">[tag]</span> — f.eks. [hviskende], [langsom], [glad], [forførende]</div>
+          </div>
+          <div class="maela-section">
+            <label class="maela-label">Stemme</label>
+            <div class="maela-select">
+              <span>Freja — varm, naturlig</span>
+              <span class="maela-chevron">▾</span>
+            </div>
+          </div>
+          <button class="maela-btn">Generér stemme</button>
+          <label class="maela-label" style="margin-top: 0.25rem;">Stemme</label>
+          <div class="maela-player">
+            <div class="maela-player-top">
+              <div class="maela-play">▶</div>
+              <div class="maela-waveform">
+                <div class="maela-wave-bar" style="height: 35%;"></div>
+                <div class="maela-wave-bar" style="height: 55%;"></div>
+                <div class="maela-wave-bar" style="height: 80%;"></div>
+                <div class="maela-wave-bar" style="height: 65%;"></div>
+                <div class="maela-wave-bar" style="height: 90%;"></div>
+                <div class="maela-wave-bar" style="height: 50%;"></div>
+                <div class="maela-wave-bar" style="height: 70%;"></div>
+                <div class="maela-wave-bar active" style="height: 45%;"></div>
+                <div class="maela-wave-bar" style="height: 85%;"></div>
+                <div class="maela-wave-bar" style="height: 60%;"></div>
+                <div class="maela-wave-bar" style="height: 40%;"></div>
+                <div class="maela-wave-bar" style="height: 75%;"></div>
+                <div class="maela-wave-bar" style="height: 55%;"></div>
+                <div class="maela-wave-bar" style="height: 90%;"></div>
+                <div class="maela-wave-bar" style="height: 65%;"></div>
+                <div class="maela-wave-bar" style="height: 50%;"></div>
+                <div class="maela-wave-bar" style="height: 80%;"></div>
+                <div class="maela-wave-bar" style="height: 35%;"></div>
+                <div class="maela-wave-bar" style="height: 70%;"></div>
+                <div class="maela-wave-bar" style="height: 45%;"></div>
+              </div>
+              <span class="maela-time">0:03 / 0:08</span>
+            </div>
+            <div class="maela-sfx-track">
+              <div class="maela-sfx-marker" style="left: 32%;">🎵 sfx</div>
+              <div class="maela-sfx-marker" style="left: 71%;">🎵 sfx</div>
+            </div>
+            <label class="maela-label" style="margin-top: 0.5rem;">Varianter</label>
+            <div class="maela-ab">
+              <div class="maela-ab-btn active">A</div>
+              <div class="maela-ab-btn">B</div>
+              <span class="maela-ab-label">Sammenlign varianter</span>
+            </div>
+            <label class="maela-label" style="margin-top: 0.5rem;">Musik</label>
+            <div class="maela-music-track">
+              <div class="maela-music-play">▶</div>
+              <div class="maela-music-bar"></div>
+              <div class="maela-music-select">
+                <span>Ambient</span>
+                <span class="maela-chevron">▾</span>
+              </div>
+            </div>
+          </div>
+          <div class="maela-export">
+            <span class="maela-export-label">↓ Eksportér</span>
+            <div class="maela-export-formats">
+              <span class="maela-format active">MP3</span>
+              <span class="maela-format">WAV</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="maela-panel maela-video">
+        <video src="media/maela.mp4" controls loop playsinline></video>
+      </div>
+    </div>
   </section>
 
   <!-- 13. Transcribe™ -->
@@ -879,7 +1193,7 @@
   </section>
 
   <!-- 16. Flipper -->
-  <section class="slide product-slide" style="--painting: url('media/background2.jpg')">
+  <section class="slide product-slide hidden-slide" style="--painting: url('media/background2.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -894,7 +1208,7 @@
     </div>
   </section>
 
-  <section class="slide collage-slide">
+  <section class="slide collage-slide hidden-slide">
     <div class="collage"><img src="media/flipper.jpeg" alt="Flipper"></div>
   </section>
 
