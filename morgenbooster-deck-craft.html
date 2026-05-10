@@ -50,7 +50,6 @@
   }
 
   .slide.active { display: flex; }
-  .slide.hidden-slide { display: none !important; }
   .slide-inner { width: 100%; max-width: 1100px; }
 
   /* --- Dark slides --- */
@@ -599,6 +598,100 @@
     margin-bottom: 0.35rem;
   }
   .jeduf-col.hero-col .jeduf-step { background: #2a2a2a; border-color: #3a3a3a; color: var(--text-light); }
+  .jeduf-impact {
+    margin-top: 0.5rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.65rem;
+    font-weight: 400;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+  .jeduf-col.hero-col .jeduf-impact { border-top-color: #3a3a3a; color: rgba(255,255,255,0.5); }
+
+  /* --- Blind spot cascade --- */
+  .blind-spot-cascade {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .blind-spot-step {
+    padding: 0.6rem 0.75rem;
+    font-size: clamp(0.75rem, 1vw, 0.9rem);
+    font-weight: 400;
+    color: var(--text);
+    border-left: 2px solid var(--border);
+    margin-left: 0;
+  }
+  .blind-spot-step .gap-num {
+    display: inline-block;
+    width: 1.5rem;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+  .blind-spot-step.b1 { opacity: 1; }
+  .blind-spot-step.b2 { opacity: 0.75; margin-left: 0.5rem; }
+  .blind-spot-step.b3 { opacity: 0.55; margin-left: 1rem; }
+  .blind-spot-step.b4 { opacity: 0.35; margin-left: 1.5rem; }
+  .blind-spot-step.b5 {
+    opacity: 1;
+    margin-left: 2rem;
+    border-left-color: var(--accent);
+    font-weight: 500;
+    color: var(--accent);
+    margin-top: 0.25rem;
+  }
+  .blind-spot-step.b5 .gap-num { color: var(--accent); }
+
+  /* --- Closing slide --- */
+  .closing-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    width: 100%;
+  }
+  .closing-left { flex: 1; }
+  .closing-photo {
+    width: 5rem;
+    height: 5rem;
+    border-radius: var(--radius);
+    object-fit: cover;
+    border: 1px solid var(--border);
+  }
+  .closing-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .closing-qr {
+    width: 22rem;
+    height: 22rem;
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 1rem;
+    border: 1px solid var(--border);
+  }
+  .closing-cta {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+  .closing-linkedin {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-weight: 400;
+  }
+  .closing-linkedin:hover { color: var(--accent); }
 
   /* --- Spec transparency --- */
   .spec-flow { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
@@ -645,10 +738,10 @@
   .dot-step p { font-size: 0.7rem; color: var(--text-muted); line-height: 1.4; padding: 0 0.5rem; font-weight: 300; }
 
   /* --- Scale proof --- */
-  .scale-proof { margin-top: 5rem; padding-top: 3rem; border-top: 1px solid var(--border); }
+  .scale-proof { margin-top: 5rem; padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); position: relative; }
   .scale-proof-label { font-size: 0.65rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 2rem; }
-  .scale-proof-stats { display: flex; align-items: center; gap: 4rem; }
-  .proof-stat { display: flex; align-items: baseline; gap: 0.75rem; }
+  .scale-proof-stats { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: start; gap: 1.5rem; }
+  .proof-stat { display: flex; flex-direction: column; gap: 0.25rem; }
   .proof-stat strong { font-size: clamp(2.4rem, 4.5vw, 3.5rem); font-weight: 300; letter-spacing: -0.035em; line-height: 1; color: var(--text); }
   .proof-stat span { font-size: 0.85rem; color: var(--text-muted); font-weight: 300; }
   .proof-divider { width: 1px; height: 40px; background: var(--border); }
@@ -1153,7 +1246,7 @@
   </section>
 
   <!-- 13. Transcribe™ -->
-  <section class="slide product-slide" style="--painting: url('media/KMS1821.jpg')">
+  <section class="slide product-slide hidden-slide" style="--painting: url('media/KMS1821.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -1168,7 +1261,7 @@
     </div>
   </section>
 
-  <section class="slide collage-slide">
+  <section class="slide collage-slide hidden-slide">
     <div class="collage"><img src="media/transcribe.jpeg" alt="Transcribe"></div>
   </section>
 
@@ -1295,10 +1388,12 @@
     </div>
   </section>
 
-  <!-- Breaker -->
-  <section class="slide quote-slide">
+  <!-- Breaker / Recap -->
+  <section class="slide">
     <div class="slide-inner">
-      <h1>But isn't this <span class="dim">just chaos?</span></h1>
+      <div class="eyebrow">You might be wondering</div>
+      <h1>How the <span class="dim">fuck?</span></h1>
+      <p class="subtitle">Let me show you.</p>
     </div>
   </section>
 
@@ -1317,6 +1412,7 @@
           <div class="jeduf-step">Full design</div>
           <div class="jeduf-step">Full build</div>
           <div class="jeduf-step">Big, slow release</div>
+          <div class="jeduf-impact">Slow or stuck. High quality when it ships — if it ever ships.</div>
         </div>
         <div class="jeduf-col hero-col">
           <div class="jeduf-label">Just right</div>
@@ -1326,6 +1422,7 @@
           <div class="jeduf-step">Spec with the agent</div>
           <div class="jeduf-step">Build + iterate</div>
           <div class="jeduf-step">Refine + ship</div>
+          <div class="jeduf-impact">Fast with focus. Quality and direction stay intact.</div>
         </div>
         <div class="jeduf-col">
           <div class="jeduf-label">Too little</div>
@@ -1335,6 +1432,7 @@
           <div class="jeduf-step">Accept all</div>
           <div class="jeduf-step">Prompt again</div>
           <div class="jeduf-step">Hope for the best</div>
+          <div class="jeduf-impact">Fast but fragile. No direction, no quality control, pure luck.</div>
         </div>
       </div>
     </div>
@@ -1352,10 +1450,11 @@
           <p>What you want · how it should feel · what good looks like</p>
         </div>
         <div class="ctx-row">
-          <span class="ctx-label">draws from</span>
+          <span class="ctx-label">AI agent draws from</span>
           <div class="ctx-pill">Codebase</div>
           <div class="ctx-pill">History</div>
           <div class="ctx-pill">Standards</div>
+          <div class="ctx-pill">.md files</div>
           <div class="ctx-pill">Your taste</div>
         </div>
         <div class="ai-divider">
@@ -1387,8 +1486,11 @@
       </div>
 
       <div class="scale-proof">
+        <img src="media/NNF-INT_logo_blue_RGB_solid.png" alt="Novo Nordisk Foundation" style="position: absolute; top: 1.5rem; right: 1.5rem; height: 1.25rem; opacity: 0.5;">
         <div class="scale-proof-label">Proven at Novo Nordisk Foundation</div>
         <div class="scale-proof-stats">
+          <div class="proof-stat"><span>Deployed a spec-driven agent orchestration layer in the foundation's data team. Built to fit their existing tech stack.</span></div>
+          <div class="proof-divider"></div>
           <div class="proof-stat"><strong>7×</strong><span>engineering output</span></div>
           <div class="proof-divider"></div>
           <div class="proof-stat"><strong>35</strong><span>use cases / week / engineer · up from 5</span></div>
@@ -1451,16 +1553,22 @@
   </section>
 
   <!-- What AI doesn't know -->
-  <section class="slide">
+  <section class="slide blind-spot-slide gap-slide">
     <div class="slide-inner">
-      <h1>The AI doesn't know <span class="dim">what matters.</span></h1>
-      <ul class="bullet-list">
-        <li>It doesn't know your users.</li>
-        <li>It doesn't have taste.</li>
-        <li>It can't tell a good experience from a technically correct one.</li>
-        <li>It doesn't feel the difference.</li>
-      </ul>
-      <p class="subtitle" style="margin-top: 2rem;">That's still you.</p>
+      <div class="gap-layout">
+        <div class="gap-text">
+          <div class="eyebrow">The blind spot</div>
+          <h2>The AI doesn't know <span class="dim">what matters.</span></h2>
+          <p class="subtitle">It builds what you ask for. Not what you should be building.</p>
+        </div>
+        <div class="blind-spot-cascade">
+          <div class="blind-spot-step b1"><span class="gap-num">01</span> Doesn't know your users</div>
+          <div class="blind-spot-step b2"><span class="gap-num">02</span> Doesn't have taste</div>
+          <div class="blind-spot-step b3"><span class="gap-num">03</span> Can't feel the difference</div>
+          <div class="blind-spot-step b4"><span class="gap-num">04</span> Solves the wrong problem</div>
+          <div class="blind-spot-step b5"><span class="gap-num">→</span> That's still you</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1472,11 +1580,20 @@
   </section>
 
   <!-- Thanks -->
-  <section class="slide">
+  <section class="slide closing-slide">
     <div class="slide-inner">
-      <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300;">Thanks.</h1>
-      <p class="subtitle">Questions?</p>
-      <div class="meta">Nils Smed, Partner at Heyra — an AI orchestration company</div>
+      <div class="closing-layout">
+        <div class="closing-left">
+          <h1>Thanks.</h1>
+          <p class="subtitle">Questions?</p>
+          <div class="meta">Nils Smed · Partner at Heyra</div>
+        </div>
+        <div class="closing-right">
+          <img src="media/linkedin-qr.svg" alt="LinkedIn QR" class="closing-qr">
+          <span class="closing-cta">Connect with me</span>
+          <a href="https://www.linkedin.com/in/nilssmed/" class="closing-linkedin">linkedin.com/in/nilssmed</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1495,7 +1612,7 @@
 </div>
 
 <script>
-  const slides = document.querySelectorAll('.slide');
+  const slides = document.querySelectorAll('.slide:not(.hidden-slide)');
   const counter = document.getElementById('counter');
   const progress = document.getElementById('progress');
   let current = 0;
