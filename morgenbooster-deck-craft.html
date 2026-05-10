@@ -204,6 +204,123 @@
     line-height: 0;
   }
   .collage img, .collage video { max-height: 92vh; max-width: 90vw; height: auto; width: auto; display: block; }
+  /* --- Code split slide --- */
+  .code-split-slide { background: var(--bg) !important; padding: 4vh 4vw !important; }
+  .code-split-slide.active { display: flex; align-items: center; justify-content: center; }
+  .code-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+    max-width: 1200px;
+    height: 70vh;
+  }
+  .code-split-panel {
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .code-split-chat { background: #1a1a1a; border-radius: var(--radius); }
+  .code-split-code-panel { background: #1e1e1e; border-radius: var(--radius); }
+  .code-split-result { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); }
+  .code-split-chrome {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.06);
+  }
+  .code-split-result .code-split-chrome { background: rgba(0,0,0,0.04); }
+  .code-split-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+  }
+  .code-split-result .code-split-dot { background: rgba(0,0,0,0.1); }
+  .code-split-filename {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    margin-left: 8px;
+    font-family: 'Inter', monospace;
+  }
+  .code-split-result .code-split-filename { color: var(--text-muted); }
+  .chat-messages {
+    flex: 1;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    overflow: hidden;
+  }
+  .chat-bubble {
+    padding: 0.6rem 0.85rem;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    max-width: 90%;
+  }
+  .chat-user {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    align-self: flex-end;
+  }
+  .chat-agent {
+    background: rgba(255,255,255,0.08);
+    color: #b0b0b0;
+    align-self: flex-start;
+  }
+  .chat-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 2px;
+  }
+  .chat-label-right { text-align: right; }
+  .code-split-code {
+    flex: 1;
+    padding: 1.5rem;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: #d4d4d4;
+    overflow: hidden;
+    margin: 0;
+    white-space: pre;
+    tab-size: 2;
+  }
+  .code-kw { color: #569cd6; }
+  .code-attr { color: #9cdcfe; }
+  .code-str { color: #ce9178; }
+  .code-split-render {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2.5rem;
+  }
+  .code-render-eyebrow {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+  .code-render-h1 {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .code-render-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+  }
+
   .collage .placeholder {
     color: var(--text-faint);
     font-size: 0.85rem;
@@ -542,7 +659,7 @@
   </section>
 
   <!-- 15. Unsub™ Subscriptions -->
-  <section class="slide product-slide" style="--painting: url('media/background2.jpg')">
+  <section class="slide product-slide" style="--painting: url('media/KMS3492.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -562,7 +679,7 @@
   </section>
 
   <!-- 17. Unsub™ Promos -->
-  <section class="slide product-slide" style="--painting: url('media/background3.jpg')">
+  <section class="slide product-slide" style="--painting: url('media/background2.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -582,7 +699,7 @@
   </section>
 
   <!-- 8. Nobait™ -->
-  <section class="slide product-slide" style="--painting: url('media/background1.jpg')">
+  <section class="slide product-slide" style="--painting: url('media/KMS3397.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -602,7 +719,7 @@
   </section>
 
   <!-- 19. Wiretap™ (original) -->
-  <section class="slide product-slide" style="--painting: url('media/background2.jpg')">
+  <section class="slide product-slide" style="--painting: url('media/KMS7379.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -642,7 +759,7 @@
   </section>
 
   <!-- 18. Wiretap™ Notes -->
-  <section class="slide product-slide" style="--painting: url('media/background1.jpg')">
+  <section class="slide product-slide" style="--painting: url('media/KMS3769.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -662,7 +779,7 @@
   </section>
 
   <!-- 10. Acquired™ -->
-  <section class="slide product-slide" style="--painting: url('media/background2.jpg')">
+  <section class="slide product-slide" style="--painting: url('media/KMS602.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -682,7 +799,7 @@
   </section>
 
   <!-- 11. Explain™ -->
-  <section class="slide product-slide" style="--painting: url('media/background3.jpg')">
+  <section class="slide product-slide" style="--painting: url('media/KMSsp718.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -702,7 +819,7 @@
   </section>
 
   <!-- 12. Mæla™ -->
-  <section class="slide product-slide" style="--painting: url('media/background1.jpg')">
+  <section class="slide product-slide" style="--painting: url('media/KMSsp451.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -722,7 +839,7 @@
   </section>
 
   <!-- 13. Transcribe™ -->
-  <section class="slide product-slide" style="--painting: url('media/background2.jpg')">
+  <section class="slide product-slide" style="--painting: url('media/KMS495.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -742,7 +859,7 @@
   </section>
 
   <!-- 14. Holger™ -->
-  <section class="slide product-slide" style="--painting: url('media/background3.jpg')">
+  <section class="slide product-slide" style="--painting: url('media/KMSsp233.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -782,7 +899,7 @@
   </section>
 
   <!-- 14. Slides™ -->
-  <section class="slide product-slide" style="--painting: url('media/background2.jpg')">
+  <section class="slide product-slide" style="--painting: url('media/KMS3492.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -797,8 +914,71 @@
     </div>
   </section>
 
-  <section class="slide collage-slide">
-    <div class="collage"><img src="media/slides.jpeg" alt="Slides"></div>
+  <section class="slide code-split-slide">
+    <div class="code-split">
+      <div class="code-split-panel code-split-chat">
+        <div class="code-split-chrome">
+          <div class="code-split-dot"></div>
+          <div class="code-split-dot"></div>
+          <div class="code-split-dot"></div>
+          <span class="code-split-filename">Agent</span>
+        </div>
+        <div class="chat-messages">
+          <div class="chat-label chat-label-right">You</div>
+          <div class="chat-bubble chat-user">I built like 14 things in a year. Most of them side projects no one asked for. I just kept shipping. I want to talk about that at Morgenbooster. The vibe, the speed, the AI stuff. Make it a deck.</div>
+          <div class="chat-label">Agent</div>
+          <div class="chat-bubble chat-agent">I'll structure this using the six-beat framework from STORYTELLING.md. Open with a confession, build empathy, name the shift, show the builds as evidence, then earn trust with honesty.</div>
+          <div class="chat-bubble chat-agent" style="color: #6b9e6b; font-family: 'SF Mono', monospace; font-size: 0.65rem;">✓ 43 slides generated</div>
+        </div>
+      </div>
+      <div class="code-split-panel code-split-code-panel">
+        <div class="code-split-chrome">
+          <div class="code-split-dot"></div>
+          <div class="code-split-dot"></div>
+          <div class="code-split-dot"></div>
+          <span class="code-split-filename">deck.html</span>
+        </div>
+        <pre class="code-split-code"><span class="code-kw">&lt;!-- Open — hook --&gt;</span>
+<span class="code-kw">&lt;section</span> <span class="code-attr">class</span>=<span class="code-str">"slide"</span><span class="code-kw">&gt;</span>
+  <span class="code-kw">&lt;h1&gt;</span>I have a confession.
+  <span class="code-kw">&lt;/h1&gt;</span>
+<span class="code-kw">&lt;/section&gt;</span>
+
+<span class="code-kw">&lt;!-- Act 1 — empathy --&gt;</span>
+<span class="code-kw">&lt;section</span> <span class="code-attr">class</span>=<span class="code-str">"slide"</span><span class="code-kw">&gt;</span>
+  <span class="code-kw">&lt;div</span> <span class="code-attr">class</span>=<span class="code-str">"eyebrow"</span><span class="code-kw">&gt;</span>Act 1<span class="code-kw">&lt;/div&gt;</span>
+  <span class="code-kw">&lt;h1&gt;</span>The old way.<span class="code-kw">&lt;/h1&gt;</span>
+<span class="code-kw">&lt;/section&gt;</span>
+
+<span class="code-kw">&lt;!-- Act 3 — evidence --&gt;</span>
+<span class="code-kw">&lt;section</span> <span class="code-attr">class</span>=<span class="code-str">"slide product-slide"</span><span class="code-kw">&gt;</span>
+  ...14 products
+<span class="code-kw">&lt;/section&gt;</span>
+</pre>
+      </div>
+      <div class="code-split-panel code-split-result">
+        <div class="code-split-chrome">
+          <div class="code-split-dot"></div>
+          <div class="code-split-dot"></div>
+          <div class="code-split-dot"></div>
+          <span class="code-split-filename">Result</span>
+        </div>
+        <div class="code-split-render" style="justify-content: center;">
+          <div class="code-render-eyebrow" style="font-size: 0.55rem; letter-spacing: 0.12em;">Morgenbooster · 13 May 2026</div>
+          <div class="code-render-h1" style="font-size: clamp(1.1rem, 2vw, 1.5rem); line-height: 1.2;">Designing with a vibe.<br><span style="color: var(--text-muted);">When AI turns ideas into experiences.</span></div>
+          <div style="font-size: 0.6rem; color: var(--text-secondary); font-weight: 300; margin-top: 1rem; line-height: 1.5;">Nils Smed<br>Partner at Heyra</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+      <div class="eyebrow">Try it</div>
+      <h2 style="margin-bottom: 1.5rem;">Clone. Write your story. Ship.</h2>
+      <div style="background: var(--bg-dark); color: #d4d4d4; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: clamp(0.7rem, 1.2vw, 0.9rem); padding: 1rem 1.75rem; border-radius: var(--radius-sm); letter-spacing: 0.01em;">git clone https://github.com/noskillish/slides.git</div>
+      <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1.25rem; font-weight: 300;">One file. Open source. Works with any AI agent.</div>
+    </div>
   </section>
 
   <!-- Breaker -->
