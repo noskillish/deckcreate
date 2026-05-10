@@ -136,36 +136,39 @@
   /* --- Product slide --- */
   .product-slide {
     width: 100%;
-    background:
-      radial-gradient(ellipse at 30% 40%, rgba(180,140,100,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse at 70% 60%, rgba(160,120,80,0.08) 0%, transparent 50%),
-      linear-gradient(135deg, #ede6d8 0%, #e8e0d0 30%, #dfd5c5 60%, #ece4d6 100%);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='600' height='600' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse at 20% 30%, rgba(160,120,70,0.18) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 55%, rgba(140,100,60,0.14) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(170,130,80,0.10) 0%, transparent 45%);
+    background-color: #e8dfd0;
   }
   .product-row {
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
     gap: 0;
   }
   .product-name {
-    order: -1;
-    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
     font-weight: 300;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.03em;
     line-height: 1;
     color: var(--text);
-    opacity: 0.10;
     margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
   }
-  .product-name sup { font-size: 0.25em; font-weight: 300; vertical-align: super; margin-left: 0.1em; }
+  .product-name sup { font-size: 0.3em; font-weight: 300; vertical-align: super; margin-left: 0.1em; color: var(--text-muted); }
   .product-meta {
     background: rgba(255,255,255,0.72);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255,255,255,0.5);
     border-radius: var(--radius);
-    padding: 2rem 2.25rem;
+    padding: 2.25rem 2.5rem;
     max-width: 540px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.03);
   }
@@ -515,13 +518,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Unsub<sup>™</sup></div>
           <div class="product-num">/01</div>
           <div class="product-tag">10,000 unread emails</div>
           <h3 class="product-headline">Connects to Gmail. Scans for newsletters. One big wipe.</h3>
           <p class="product-desc">No hunting for tiny unsubscribe links at the bottom of emails. Built it because I needed it. Shipped it because maybe you do too.</p>
           <div class="product-stat">A few hours · One weekend</div>
         </div>
-        <div class="product-name">Unsub<sup>™</sup></div>
       </div>
     </div>
   </section>
@@ -535,13 +538,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Nobait<sup>™</sup></div>
           <div class="product-num">/02</div>
           <div class="product-tag">"You won't believe what the PM said—"</div>
           <h3 class="product-headline">Replaces clickbait with the actual headline.</h3>
           <p class="product-desc">Chrome extension. Same content, no manipulation. No settings. No dashboard. No premium tier. Just headlines that tell you what happened.</p>
           <div class="product-stat">Aggressively simple · Removes the annoying thing</div>
         </div>
-        <div class="product-name">Nobait<sup>™</sup></div>
       </div>
     </div>
   </section>
@@ -555,13 +558,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Wiretap<sup>™</sup></div>
           <div class="product-num">/03</div>
           <div class="product-tag">$500B–$1T global problem</div>
           <h3 class="product-headline">Listens for scam attempts. Warns you instantly.</h3>
           <p class="product-desc">Phone scams target regular people. Often older people. Often with no protection. Wiretap Guardian listens to calls from unverified numbers and sends an SMS warning if it suspects a scam.</p>
           <div class="product-stat">Not perfect · A small line of defense · Genuinely proud of this one</div>
         </div>
-        <div class="product-name">Wiretap<sup>™</sup></div>
       </div>
     </div>
   </section>
@@ -575,13 +578,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Acquired<sup>™</sup></div>
           <div class="product-num">/04</div>
           <div class="product-tag">"Company X acquired by Company Y." No number.</div>
           <h3 class="product-headline">Estimates undisclosed deal prices on Danish acquisitions.</h3>
           <p class="product-desc">Reverse-engineers the deal from the seller's holding company financials. Splits it into on-spot payment and earnout. Works surprisingly well on recent acquisitions.</p>
           <div class="product-stat">A weekend · A fun experiment</div>
         </div>
-        <div class="product-name">Acquired<sup>™</sup></div>
       </div>
     </div>
   </section>
@@ -595,13 +598,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Explain<sup>™</sup></div>
           <div class="product-num">/05</div>
           <div class="product-tag">"I don't speak medical."</div>
           <h3 class="product-headline">Reads my health records. Explains them in plain language.</h3>
           <p class="product-desc">Built in a 1:1 with Anja from sundhed.dk using Cursor, on my own data. Notes, observations, language meant for professionals. Returns: what happened, what the note means, and how it matters to me.</p>
           <div class="product-stat">No guessing · No jargon · Just plain language</div>
         </div>
-        <div class="product-name">Explain<sup>™</sup></div>
       </div>
     </div>
   </section>
@@ -615,13 +618,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Mæla<sup>™</sup></div>
           <div class="product-num">/06</div>
           <div class="product-tag">"Built with Adam. Speaks Danish. Really well."</div>
           <h3 class="product-headline">A Danish AI voice tool that sounds human.</h3>
           <p class="product-desc">Write a script. Pick a voice. Adjust tone, tempo, pronunciation. Add music. Get a Danish voiceover, production-ready. From radio spots to full voiceovers. 100% AI, still feels human.</p>
           <div class="product-stat">With Adam Haxholdt · Going live soon</div>
         </div>
-        <div class="product-name">Mæla<sup>™</sup></div>
       </div>
     </div>
   </section>
@@ -635,13 +638,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Transcribe<sup>™</sup></div>
           <div class="product-num">/07</div>
           <div class="product-tag">"I don't have anything fancy to say about this."</div>
           <h3 class="product-headline">A free transcription tool. Upload audio or video. Get a transcript with timestamps.</h3>
           <p class="product-desc">Community-funded. There's a shared token pool. Anyone can use it. Hopefully some people donate and pay it forward. When the pool runs out, transcriptions pause until it's topped up. No accounts. No subscriptions. No upsells. No ads. No pop-ups.</p>
           <div class="product-stat">Free while tokens last · Community pool</div>
         </div>
-        <div class="product-name">Transcribe<sup>™</sup></div>
       </div>
     </div>
   </section>
@@ -655,13 +658,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Holger<sup>™</sup></div>
           <div class="product-num">/08</div>
           <div class="product-tag">"90 people. Different roles. Different strengths."</div>
           <h3 class="product-headline">An internal employee index that reads RFPs and generates tailored CVs.</h3>
           <p class="product-desc">Upload a proposal or RFP. Holger reads it and generates CVs aligned to the project. Highlights relevant experience. Aligns skills to the scope. Adjusts language to context. So you don't have to.</p>
           <div class="product-stat">Bespoke CVs ready to use · Internal tool</div>
         </div>
-        <div class="product-name">Holger<sup>™</sup></div>
       </div>
     </div>
   </section>
@@ -675,13 +678,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Subscriptions</div>
           <div class="product-num">/09</div>
           <div class="product-tag">"DKK 10,000+ a year on subscriptions."</div>
           <h3 class="product-headline">Scans transactions. Finds paid subscriptions. Cancel from one place.</h3>
           <p class="product-desc">875 kr a month. Small charges. Easy to miss. A tool I tried once. A service I thought I used. Something that just kept charging. Now I can stop paying for what I don't use.</p>
           <div class="product-stat">A new feature for Unsub™</div>
         </div>
-        <div class="product-name">Subscriptions</div>
       </div>
     </div>
   </section>
@@ -695,13 +698,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Flipper</div>
           <div class="product-num">/10</div>
           <div class="product-tag">"+847% return. Tax-free."</div>
           <h3 class="product-headline">Tracks Copenhagen properties bought and relisted within 24 months.</h3>
           <p class="product-desc">Shows how often properties are flipped. How long held. How prices change in between. Largest observed potential profit: 7,500,000 DKK in 453 days. Across this group: 146.6M DKK in current potential.</p>
           <div class="product-stat">Service closed · Some people weren't happy</div>
         </div>
-        <div class="product-name">Flipper</div>
       </div>
     </div>
   </section>
@@ -715,13 +718,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Promos</div>
           <div class="product-num">/11</div>
           <div class="product-tag">"You don't read those emails."</div>
           <h3 class="product-headline">Scans your inbox for promo codes. Pulls them out for you.</h3>
           <p class="product-desc">Newsletters, promotions, campaigns. They just pile up. But there's still value in them: promo codes, discounts, free shipping. No reading. No digging. No scrolling through newsletters. Just value extracted, fast.</p>
           <div class="product-stat">A new feature for Unsub™</div>
         </div>
-        <div class="product-name">Promos</div>
       </div>
     </div>
   </section>
@@ -735,13 +738,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Notes</div>
           <div class="product-num">/12</div>
           <div class="product-tag">"Thoughts vanish."</div>
           <h3 class="product-headline">Call your agent. Speak. It analyzes, structures, and files them.</h3>
           <p class="product-desc">Walking. Driving. Halfway through something else. You think "I'll remember this later," but you rarely do. Now thoughts have somewhere to go. Works on ANY phone — dumb or smart. No apps. No typing. No internet.</p>
           <div class="product-stat">Just a phone line · Built on Wiretap™</div>
         </div>
-        <div class="product-name">Notes</div>
       </div>
     </div>
   </section>
@@ -755,13 +758,13 @@
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
+          <div class="product-name">Wiretap<sup>™</sup></div>
           <div class="product-num">/13</div>
           <div class="product-tag">"Voicemail sucks."</div>
           <h3 class="product-headline">AI voicemail. No menus. No 1998. Just messages, understood.</h3>
           <p class="product-desc">Takes the message, understands context, delivers quick. Logs everything in the dashboard. AI scans for scam/sales calls, appointments, shopping requests, and more. Built because Telia, Norlys, OiSTER, Telmore, Telenor didn't bother.</p>
           <div class="product-stat">ElevenLabs · OpenAI · Twilio · Supabase</div>
         </div>
-        <div class="product-name">Wiretap<sup>™</sup></div>
       </div>
     </div>
   </section>
