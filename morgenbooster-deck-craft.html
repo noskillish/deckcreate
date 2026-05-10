@@ -136,12 +136,24 @@
   /* --- Product slide --- */
   .product-slide {
     width: 100%;
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='600' height='600' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"),
-      radial-gradient(ellipse at 20% 30%, rgba(160,120,70,0.18) 0%, transparent 55%),
-      radial-gradient(ellipse at 75% 55%, rgba(140,100,60,0.14) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 80%, rgba(170,130,80,0.10) 0%, transparent 45%);
-    background-color: #e8dfd0;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--painting, none) center/cover no-repeat;
+    opacity: 0.18;
+    filter: saturate(0.4) contrast(0.9);
+  }
+  .product-slide .slide-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
   }
   .product-row {
     position: relative;
