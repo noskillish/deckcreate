@@ -476,6 +476,21 @@
     font-family: 'SF Mono', 'Consolas', monospace;
   }
 
+  /* --- Fullscreen video slide --- */
+  .video-fullscreen-slide { background: var(--bg) !important; padding: 4vh 4vw !important; }
+  .video-fullscreen-slide.active { display: flex; align-items: center; justify-content: center; }
+  .video-container {
+    max-height: 85vh;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .video-container video {
+    display: block;
+    max-width: 100%;
+    max-height: 85vh;
+  }
+
   /* --- Gap slide (cascade, craft) --- */
   .gap-slide { background: var(--bg) !important; }
   .gap-layout {
@@ -1159,7 +1174,21 @@
     </div>
   </section>
 
-  <section class="slide maela-split-slide">
+  <!-- Mæla voicetest 1 -->
+  <section class="slide video-fullscreen-slide">
+    <div class="video-container">
+      <video src="media/Mæla_Voicetest_001-2.mp4" controls playsinline></video>
+    </div>
+  </section>
+
+  <!-- Mæla voicetest 2 -->
+  <section class="slide video-fullscreen-slide">
+    <div class="video-container">
+      <video src="media/Mæla_voicetest_002-3.mp4" controls playsinline></video>
+    </div>
+  </section>
+
+  <section class="slide maela-split-slide hidden-slide">
     <div class="maela-split">
       <div class="maela-panel maela-interface">
         <div class="maela-chrome">
