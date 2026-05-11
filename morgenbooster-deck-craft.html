@@ -809,6 +809,15 @@
     font-weight: 400;
     z-index: 100;
   }
+  .deck-watermark {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    font-size: 0.7rem;
+    color: var(--text-faint);
+    font-weight: 400;
+    z-index: 100;
+  }
 
   .progress {
     position: fixed;
@@ -849,7 +858,7 @@
     .slide { display: flex !important; position: relative !important; inset: auto !important; width: 13.333in !important; height: 7.5in !important; page-break-after: always !important; break-after: page !important; page-break-inside: avoid !important; break-inside: avoid !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     .slide:last-child { page-break-after: auto !important; break-after: auto !important; }
     .slide.dark { background: var(--bg-dark) !important; }
-    .nav, .talk-meta, .progress, .pdf-btn { display: none !important; }
+    .nav, .talk-meta, .deck-watermark, .progress, .pdf-btn { display: none !important; }
   }
 </style>
 </head>
@@ -1055,7 +1064,7 @@
   </section>
 
   <!-- 9. Wiretap™ Guardian -->
-  <section class="slide product-slide" style="--painting: url('media/KMS529.jpg')">
+  <section class="slide product-slide hidden-slide" style="--painting: url('media/KMS529.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -1070,12 +1079,12 @@
     </div>
   </section>
 
-  <section class="slide collage-slide">
+  <section class="slide collage-slide hidden-slide">
     <div class="collage"><img src="media/wiretap-guardian.jpeg" alt="Wiretap Guardian"></div>
   </section>
 
   <!-- 18. Wiretap™ Notes -->
-  <section class="slide product-slide" style="--painting: url('media/KMSsp629.jpg')">
+  <section class="slide product-slide hidden-slide" style="--painting: url('media/KMSsp629.jpg')">
     <div class="slide-inner">
       <div class="product-row">
         <div class="product-meta">
@@ -1090,7 +1099,7 @@
     </div>
   </section>
 
-  <section class="slide collage-slide">
+  <section class="slide collage-slide hidden-slide">
     <div class="collage"><img src="media/wiretap-notes.jpeg" alt="Wiretap Notes"></div>
   </section>
 
@@ -1600,6 +1609,7 @@
 </div>
 
 <div class="talk-meta">Designing with a vibe · Morgenbooster 13.05.26</div>
+<div class="deck-watermark">Heyra</div>
 
 <button class="pdf-btn" onclick="downloadPDF()">Download PDF</button>
 
