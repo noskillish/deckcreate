@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0a0a">
+<title>Mæla™</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0a0a0a;
+    min-height: 100dvh;
+    margin: 0;
+  }
+
+  .maela-interface {
+    background: #0a0a0a;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+
+  .maela-chrome {
+    display: flex; align-items: center; justify-content: center;
+    padding: calc(env(safe-area-inset-top, 0px) + 16px) 14px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    position: sticky; top: 0; background: #0a0a0a; z-index: 10;
+  }
+  .maela-title {
+    font-size: 0.85rem; color: rgba(255,255,255,0.6);
+    font-weight: 500; letter-spacing: 0.04em;
+  }
+
+  .maela-body { padding: 1rem 1.25rem calc(env(safe-area-inset-bottom, 0px) + 2rem); display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .maela-section { display: flex; flex-direction: column; gap: 0.35rem; }
+
+  .maela-label {
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35); font-weight: 500;
+  }
+
+  .maela-textarea {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+    padding: 0.75rem; font-size: 0.82rem; line-height: 1.7; color: #f0f0f0; min-height: 70px;
+    font-family: inherit;
+  }
+
+  .maela-tag {
+    background: rgba(255,255,255,0.1); color: #f0f0f0; padding: 1px 6px; border-radius: 4px;
+    font-size: 0.65rem; font-weight: 500; border: 1px solid rgba(255,255,255,0.14);
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+
+  .maela-hint {
+    font-size: 0.6rem; color: rgba(255,255,255,0.25); line-height: 1.5;
+  }
+  .maela-tag-inline {
+    font-family: 'SF Mono', 'Consolas', monospace; font-size: 0.58rem;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    padding: 0 4px; border-radius: 3px; color: rgba(255,255,255,0.35);
+  }
+
+  .maela-select {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+    padding: 0.55rem 0.75rem; font-size: 0.82rem; color: #f0f0f0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .maela-chevron { color: rgba(255,255,255,0.3); font-size: 0.7rem; }
+
+  .maela-estimate {
+    font-size: 0.6rem; color: rgba(255,255,255,0.3);
+    font-family: 'SF Mono', 'Consolas', monospace; letter-spacing: 0.02em;
+  }
+
+  .maela-btn {
+    background: rgba(255,255,255,0.08); color: #f0f0f0; border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px; padding: 0.85rem; font-size: 0.85rem; font-weight: 500;
+    cursor: pointer; width: 100%; text-align: center;
+    letter-spacing: 0.01em; transition: background 0.2s; font-family: inherit;
+  }
+  .maela-btn:active { background: rgba(255,255,255,0.14); }
+
+  .maela-player {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+    padding: 0.85rem; display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .maela-player-top { display: flex; align-items: center; gap: 0.75rem; }
+  .maela-play {
+    width: 40px; height: 40px; background: rgba(255,255,255,0.1); color: #f0f0f0;
+    border: 1px solid rgba(255,255,255,0.14); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0;
+  }
+  .maela-waveform { flex: 1; display: flex; align-items: flex-end; gap: 2px; height: 32px; }
+  .maela-wave-bar {
+    flex: 1; background: rgba(255,255,255,0.12); border-radius: 1px; min-height: 3px;
+  }
+  .maela-wave-bar.active { background: rgba(255,255,255,0.5); }
+  .maela-time {
+    font-size: 0.6rem; color: rgba(255,255,255,0.3); flex-shrink: 0;
+    font-family: 'SF Mono', monospace;
+  }
+
+  .maela-sfx-track {
+    position: relative; height: 22px;
+    border-top: 1px dashed rgba(255,255,255,0.06);
+    padding-top: 4px;
+  }
+  .maela-sfx-marker {
+    position: absolute; top: 3px; font-size: 0.55rem; color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.05); padding: 1px 5px; border-radius: 3px; font-weight: 500;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .maela-ab {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .maela-ab-btn {
+    width: 36px; height: 36px; border-radius: 50%; font-size: 0.7rem; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.25);
+    background: transparent;
+  }
+  .maela-ab-btn.active {
+    background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6);
+    border-color: rgba(255,255,255,0.2);
+  }
+  .maela-ab-label {
+    font-size: 0.55rem; color: rgba(255,255,255,0.2);
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+
+  .maela-music-track {
+    position: relative; height: 42px;
+    background: rgba(255,255,255,0.02); border-radius: 4px;
+    display: flex; align-items: center; padding: 0 8px; gap: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .maela-music-play {
+    width: 28px; height: 28px; border-radius: 50%; font-size: 0.5rem;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;
+  }
+  .maela-music-bar {
+    flex: 1; height: 4px; border-radius: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.04) 100%);
+  }
+  .maela-music-select {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 0.55rem; color: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+  .maela-music-select .maela-chevron { font-size: 0.5rem; color: rgba(255,255,255,0.2); }
+
+  .maela-export {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.6rem 0.75rem;
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+  }
+  .maela-export-label {
+    font-size: 0.7rem; color: rgba(255,255,255,0.5); font-weight: 500;
+  }
+  .maela-export-formats { display: flex; gap: 4px; }
+  .maela-format {
+    font-size: 0.6rem; padding: 3px 8px; border-radius: 4px;
+    color: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.08);
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+  .maela-format.active {
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6);
+    border-color: rgba(255,255,255,0.14);
+  }
+</style>
+</head>
+<body>
+
+<div class="maela-interface">
+  <div class="maela-chrome">
+    <span class="maela-title">Mæla™</span>
+  </div>
+  <div class="maela-body">
+    <div class="maela-section">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+        <label class="maela-label">Manuskript</label>
+        <span class="maela-estimate">~8 sek · 24 ord</span>
+      </div>
+      <div class="maela-textarea">
+        <span>Dette er en stemmeprøve. </span>
+        <span class="maela-tag">[hviskende]</span>
+        <span> Kan du høre forskellen? </span>
+        <span class="maela-tag">[forførende]</span>
+        <span> Selvfølgelig kan du det.</span>
+      </div>
+      <div class="maela-hint">Tilføj audio tags med <span class="maela-tag-inline">[tag]</span> — f.eks. [hviskende], [langsom], [glad], [forførende]</div>
+    </div>
+
+    <div class="maela-section">
+      <label class="maela-label">Stemme</label>
+      <div class="maela-select">
+        <span>Freja — varm, naturlig</span>
+        <span class="maela-chevron">▾</span>
+      </div>
+    </div>
+
+    <button class="maela-btn">Generér stemme</button>
+
+    <label class="maela-label" style="margin-top: 0.25rem;">Stemme</label>
+    <div class="maela-player">
+      <div class="maela-player-top">
+        <div class="maela-play">▶</div>
+        <div class="maela-waveform">
+          <div class="maela-wave-bar" style="height: 35%;"></div>
+          <div class="maela-wave-bar" style="height: 55%;"></div>
+          <div class="maela-wave-bar" style="height: 80%;"></div>
+          <div class="maela-wave-bar" style="height: 65%;"></div>
+          <div class="maela-wave-bar" style="height: 90%;"></div>
+          <div class="maela-wave-bar" style="height: 50%;"></div>
+          <div class="maela-wave-bar" style="height: 70%;"></div>
+          <div class="maela-wave-bar active" style="height: 45%;"></div>
+          <div class="maela-wave-bar" style="height: 85%;"></div>
+          <div class="maela-wave-bar" style="height: 60%;"></div>
+          <div class="maela-wave-bar" style="height: 40%;"></div>
+          <div class="maela-wave-bar" style="height: 75%;"></div>
+          <div class="maela-wave-bar" style="height: 55%;"></div>
+          <div class="maela-wave-bar" style="height: 90%;"></div>
+          <div class="maela-wave-bar" style="height: 65%;"></div>
+          <div class="maela-wave-bar" style="height: 50%;"></div>
+          <div class="maela-wave-bar" style="height: 80%;"></div>
+          <div class="maela-wave-bar" style="height: 35%;"></div>
+          <div class="maela-wave-bar" style="height: 70%;"></div>
+          <div class="maela-wave-bar" style="height: 45%;"></div>
+        </div>
+        <span class="maela-time">0:03 / 0:08</span>
+      </div>
+      <div class="maela-sfx-track">
+        <div class="maela-sfx-marker" style="left: 32%;">🎵 sfx</div>
+        <div class="maela-sfx-marker" style="left: 71%;">🎵 sfx</div>
+      </div>
+      <label class="maela-label" style="margin-top: 0.5rem;">Varianter</label>
+      <div class="maela-ab">
+        <div class="maela-ab-btn active">A</div>
+        <div class="maela-ab-btn">B</div>
+        <span class="maela-ab-label">Sammenlign varianter</span>
+      </div>
+      <label class="maela-label" style="margin-top: 0.5rem;">Musik</label>
+      <div class="maela-music-track">
+        <div class="maela-music-play">▶</div>
+        <div class="maela-music-bar"></div>
+        <div class="maela-music-select">
+          <span>Ambient</span>
+          <span class="maela-chevron">▾</span>
+        </div>
+      </div>
+    </div>
+    <div class="maela-export">
+      <span class="maela-export-label">↓ Eksportér</span>
+      <div class="maela-export-formats">
+        <span class="maela-format active">MP3</span>
+        <span class="maela-format">WAV</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
