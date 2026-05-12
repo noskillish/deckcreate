@@ -782,6 +782,52 @@
   .stat-desc { font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4; font-weight: 300; }
   .stat-dark .stat-desc { color: #999; }
 
+  /* --- Spec comparison --- */
+  .spec-compare {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0;
+    margin-top: 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .spec-col { padding: 1.5rem 1.75rem; }
+  .spec-col-label {
+    font-size: 0.6rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .spec-col-label.positive { color: var(--text); }
+  .spec-col-label.negative { color: var(--text-faint); }
+  .spec-divider { background: var(--border); }
+  .spec-items { display: flex; flex-direction: column; gap: 0.85rem; }
+  .spec-item strong {
+    display: block;
+    font-size: clamp(0.72rem, 1.15vw, 0.85rem);
+    font-weight: 500;
+    margin-bottom: 0.15rem;
+    letter-spacing: -0.01em;
+  }
+  .spec-item span {
+    display: block;
+    font-size: clamp(0.6rem, 1vw, 0.7rem);
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  .spec-col-negative .spec-item strong {
+    color: var(--text-faint);
+    font-weight: 400;
+  }
+  .spec-col-negative .spec-item span { color: var(--text-faint); }
+
   /* --- Nav --- */
   .nav {
     position: fixed;
@@ -828,9 +874,10 @@
     position: fixed;
     top: 1.5rem;
     left: 1.5rem;
-    font-size: 0.7rem;
-    color: var(--text-faint);
-    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.02em;
     z-index: 100;
   }
 
@@ -887,7 +934,7 @@
   <section class="slide active">
     <div class="slide-inner">
       <div class="eyebrow">Morgenbooster · 13 May 2026</div>
-      <h1>Designing with a vibe.<br><span class="dim">When AI turns ideas into experiences.</span></h1>
+      <h1>Building <span class="dim">with a vibe.</span></h1>
       <div class="meta">Nils Smed, Partner at Heyra — an AI orchestration company</div>
     </div>
   </section>
@@ -903,7 +950,7 @@
   <section class="slide">
     <div class="slide-inner">
       <div class="eyebrow">Last year alone</div>
-      <h1>20+ tools. <span class="dim">Some good. Some terrible.</span></h1>
+      <h1>So I built 20 tools <span class="dim">in a year.</span></h1>
       <p class="subtitle">3x founder. Product designer by background. For most of my career, there was a frustrating gap between having an idea and having a thing that exists in the world.</p>
     </div>
   </section>
@@ -914,7 +961,7 @@
       <div class="gap-layout">
         <div class="gap-text">
           <div class="eyebrow">Act 1 — The gap</div>
-          <h2>The old way of building.</h2>
+          <h2>Building was slow <span class="dim">and expensive.</span></h2>
           <p class="subtitle">Most ideas died here. Not because they were bad — because the cost was too high relative to "let's see if this even works."</p>
         </div>
         <div class="gap-cascade">
@@ -936,7 +983,7 @@
   <!-- Breaker -->
   <section class="slide quote-slide">
     <div class="slide-inner">
-      <h1>That felt normal. <span class="dim">Until it wasn't.</span></h1>
+      <h1>Everyone just <span class="dim">accepted it.</span></h1>
     </div>
   </section>
 
@@ -944,7 +991,7 @@
   <section class="slide dark">
     <div class="slide-inner">
       <div class="eyebrow">Act 2 — The shift</div>
-      <h1>The bottleneck <span class="dim">moved.</span></h1>
+      <h1>Then the cost <span class="dim">collapsed.</span></h1>
       <p class="subtitle">It used to be: <em>can we build this?</em> Now it's just: do you have an idea and a few hours? The gap between idea and existence has collapsed.</p>
     </div>
   </section>
@@ -955,7 +1002,7 @@
       <div class="gap-layout">
         <div class="gap-text">
           <div class="eyebrow">Now</div>
-          <h2>The new way of building.</h2>
+          <h2>Building is cheap <span class="dim">and fast.</span></h2>
           <p class="subtitle">Same instinct. Fewer gates. Idea to existence in a few hours.</p>
         </div>
         <div class="gap-cascade">
@@ -973,7 +1020,7 @@
   <section class="slide">
     <div class="slide-inner">
       <div class="eyebrow">Act 3 — The builds</div>
-      <h1>A few personal frustrations. <span class="dim">A few weekends.</span></h1>
+      <h1>Each one started <span class="dim">as a frustration.</span></h1>
       <p class="subtitle">No market research. No competitor analysis. Just: this annoys me, let me fix it.</p>
     </div>
   </section>
@@ -1427,11 +1474,9 @@
   </section>
 
   <!-- Breaker / Recap -->
-  <section class="slide">
+  <section class="slide quote-slide">
     <div class="slide-inner">
-      <div class="eyebrow">You might be wondering</div>
-      <h1>How the <span class="dim">fuck?</span></h1>
-      <p class="subtitle">Let me show you.</p>
+      <h1>How the fuck <span class="dim">did one person do all that?</span></h1>
     </div>
   </section>
 
@@ -1444,7 +1489,7 @@
       <div class="jeduf">
         <div class="jeduf-col">
           <div class="jeduf-label">Too much</div>
-          <div class="jeduf-title">Waterfall</div>
+          <div class="jeduf-title">Waterfall <span class="dim">(BDUF)</span></div>
           <div class="jeduf-philosophy">"Plan enough and you won't get hurt."</div>
           <div class="jeduf-step">Full requirements</div>
           <div class="jeduf-step">Full design</div>
@@ -1454,7 +1499,7 @@
         </div>
         <div class="jeduf-col hero-col">
           <div class="jeduf-label">Just right</div>
-          <div class="jeduf-title">Spec-driven</div>
+          <div class="jeduf-title">Spec-driven <span class="dim">(JEDUF)</span></div>
           <div class="jeduf-philosophy">"Think upfront about where you're heading, then find the path."</div>
           <div class="jeduf-step">Define must / should / could / won't</div>
           <div class="jeduf-step">Spec with the agent</div>
@@ -1464,7 +1509,7 @@
         </div>
         <div class="jeduf-col">
           <div class="jeduf-label">Too little</div>
-          <div class="jeduf-title">Vibe coding</div>
+          <div class="jeduf-title">Vibe coding <span class="dim">(No DUF)</span></div>
           <div class="jeduf-philosophy">"Dive in, YOLO mode. You'll figure it out."</div>
           <div class="jeduf-step">Prompt something</div>
           <div class="jeduf-step">Accept all</div>
@@ -1476,11 +1521,43 @@
     </div>
   </section>
 
+  <!-- Workflow: Describe -->
+  <section class="slide">
+    <div class="slide-inner" style="padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div class="eyebrow" style="margin-bottom: 0.75rem; align-self: flex-start; padding-left: 3%;">01 · Describe it</div>
+      <img src="media/workflow-1-describe.png" alt="Describe the idea" style="width: 95%; max-height: 82vh; object-fit: contain; border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+    </div>
+  </section>
+
+  <!-- Workflow: Plan -->
+  <section class="slide">
+    <div class="slide-inner" style="padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div class="eyebrow" style="margin-bottom: 0.75rem; align-self: flex-start; padding-left: 3%;">02 · It plans</div>
+      <img src="media/workflow-2-plan.png" alt="Agent creates a plan" style="width: 95%; max-height: 82vh; object-fit: contain; border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+    </div>
+  </section>
+
+  <!-- Workflow: Build -->
+  <section class="slide">
+    <div class="slide-inner" style="padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div class="eyebrow" style="margin-bottom: 0.75rem; align-self: flex-start; padding-left: 3%;">03 · It builds</div>
+      <img src="media/workflow-3-build.png" alt="Agent builds the tool" style="width: 95%; max-height: 82vh; object-fit: contain; border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+    </div>
+  </section>
+
+  <!-- Workflow: Refine -->
+  <section class="slide">
+    <div class="slide-inner" style="padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div class="eyebrow" style="margin-bottom: 0.75rem; align-self: flex-start; padding-left: 3%;">04 · You refine</div>
+      <img src="media/workflow-4-refine.png" alt="Refine the product" style="width: 95%; max-height: 82vh; object-fit: contain; border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+    </div>
+  </section>
+
   <!-- Spec transparency -->
   <section class="slide">
     <div class="slide-inner">
       <div class="eyebrow">The trick</div>
-      <h2>One spec. <span class="dim">Full transparency.</span></h2>
+      <h2>One spec <span class="dim">drives everything.</span></h2>
       <p class="subtitle">Write the idea down clearly. The agent reads it, knows the context, executes against it. The spec is what turns a few hours into something real.</p>
       <div class="spec-flow">
         <div class="spec-block-big">
@@ -1513,7 +1590,7 @@
   <section class="slide">
     <div class="slide-inner">
       <div class="eyebrow">And yes — it works at scale</div>
-      <h2>Same method. <span class="dim">Whole organisations.</span></h2>
+      <h2>It scales <span class="dim">to enterprises.</span></h2>
 
       <div class="dot-flow">
         <div class="dot-step"><div class="dot"></div><h4>Spec</h4><p>Intake & standards</p></div>
@@ -1541,7 +1618,7 @@
   <section class="slide">
     <div class="slide-inner">
       <div class="eyebrow">The stack</div>
-      <h2>Built on tools <span class="dim">you already know.</span></h2>
+      <h2>You don't need to <span class="dim">change your stack.</span></h2>
       <p class="subtitle">Nothing exotic. The same building blocks every modern engineering team uses — wired together so the agents have the context to actually orchestrate.</p>
 
       <div class="stack-grid">
@@ -1585,7 +1662,7 @@
   <section class="slide">
     <div class="slide-inner">
       <div class="eyebrow">Act 4 — The honest part</div>
-      <h1>Speed is not <span class="dim">the same as wisdom.</span></h1>
+      <h1>Speed without judgment <span class="dim">is dangerous.</span></h1>
       <p class="subtitle">You can now build faster than you can think. That's a new kind of risk. You can ship something that technically works but solves the wrong problem. You can fall in love with your own velocity and mistake movement for progress.</p>
     </div>
   </section>
@@ -1596,7 +1673,7 @@
       <div class="gap-layout">
         <div class="gap-text">
           <div class="eyebrow">The blind spot</div>
-          <h2>The AI doesn't know <span class="dim">what matters.</span></h2>
+          <h2>AI builds what you ask for <span class="dim">not what you need.</span></h2>
           <p class="subtitle">It builds what you ask for. Not what you should be building.</p>
         </div>
         <div class="blind-spot-cascade">
