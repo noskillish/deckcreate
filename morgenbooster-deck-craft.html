@@ -874,9 +874,12 @@
     position: fixed;
     top: 1.5rem;
     left: 1.5rem;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-weight: 500;
+    right: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    color: var(--text);
+    font-weight: 400;
     letter-spacing: 0.02em;
     z-index: 100;
   }
@@ -920,7 +923,10 @@
     .slide { display: flex !important; position: relative !important; inset: auto !important; width: 13.333in !important; height: 7.5in !important; page-break-after: always !important; break-after: page !important; page-break-inside: avoid !important; break-inside: avoid !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     .slide:last-child { page-break-after: auto !important; break-after: auto !important; }
     .slide.dark { background: var(--bg-dark) !important; }
-    .nav, .talk-meta, .deck-watermark, .progress, .pdf-btn { display: none !important; }
+    .nav, .talk-meta, .progress, .pdf-btn { display: none !important; }
+    .deck-watermark { display: none !important; }
+    .slide .slide-watermark { display: flex !important; justify-content: space-between; position: absolute; top: 1.5rem; left: 1.5rem; right: 1.5rem; font-size: 0.65rem; color: var(--text); font-weight: 400; letter-spacing: 0.02em; }
+    .slide.dark .slide-watermark { color: var(--text-light); }
   }
 </style>
 </head>
@@ -935,7 +941,7 @@
     <div class="slide-inner">
       <div class="eyebrow">Morgenbooster · 13 May 2026</div>
       <h1>Building <span class="dim">with a vibe.</span></h1>
-      <div class="meta">Nils Smed, Partner at Heyra — an AI orchestration company</div>
+      <div class="meta">Nils Smed, Partner at Heyra — The AI Orchestration Company</div>
     </div>
   </section>
 
@@ -1715,7 +1721,7 @@
 </div>
 
 <div class="talk-meta">Designing with a vibe · Morgenbooster 13.05.26</div>
-<div class="deck-watermark">Heyra</div>
+<div class="deck-watermark"><span>Heyra</span><span>The AI Orchestration Company</span></div>
 
 <button class="pdf-btn" onclick="downloadPDF()">Download PDF</button>
 
@@ -1728,16 +1734,25 @@
 </div>
 
 <script>
+  document.querySelectorAll('.slide').forEach(s => {
+    const wm = document.createElement('div');
+    wm.className = 'slide-watermark';
+    wm.innerHTML = '<span>Heyra</span><span>The AI Orchestration Company</span>';
+    wm.style.display = 'none';
+    s.appendChild(wm);
+  });
   const slides = document.querySelectorAll('.slide:not(.hidden-slide)');
   const counter = document.getElementById('counter');
   const progress = document.getElementById('progress');
   let current = 0;
 
+  const watermark = document.querySelector('.deck-watermark');
   function show(i) {
     slides.forEach(s => s.classList.remove('active'));
     slides[i].classList.add('active');
     counter.textContent = `${i + 1} / ${slides.length}`;
     progress.style.width = `${((i + 1) / slides.length) * 100}%`;
+    watermark.style.color = slides[i].classList.contains('dark') ? 'var(--text-light)' : 'var(--text)';
     current = i;
   }
 
