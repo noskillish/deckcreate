@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designing with a vibe — Morgenbooster</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #f5f0e8;
+    --bg-card: #ffffff;
+    --bg-card-warm: #faf6ef;
+    --bg-dark: #1a1a1a;
+    --text: #1a1a1a;
+    --text-light: #f5f0e8;
+    --text-secondary: #6b6560;
+    --text-muted: #9a9490;
+    --text-faint: #b5b0aa;
+    --accent: #c05a3a;
+    --border: #e5e0d8;
+    --border-strong: #d5d0c8;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .deck { width: 100vw; height: 100vh; position: relative; }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 6vh 8vw;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .slide.active { display: flex; }
+  .slide-inner { width: 100%; max-width: 1100px; }
+
+  /* --- Dark slides --- */
+  .slide.dark { background: var(--bg-dark); color: var(--text-light); }
+  .slide.dark h1 { color: var(--text-light); }
+  .slide.dark h1 span.dim { color: #666; }
+  .slide.dark .subtitle { color: #999; }
+  .slide.dark .eyebrow { color: var(--text-muted); }
+
+  /* --- Typography --- */
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 span.dim { color: var(--text-faint); font-weight: 300; }
+
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+
+  h2 span.dim { color: var(--text-faint); font-weight: 300; }
+
+  .subtitle {
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.55;
+    max-width: 720px;
+  }
+
+  .meta {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 3rem;
+  }
+
+  /* --- Quote slide --- */
+  .quote-slide { text-align: left; }
+  .quote-slide h1 {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+  }
+
+  /* --- Two col --- */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  .col-stack > * + * { margin-top: 0.5rem; }
+
+  .step {
+    font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+    color: var(--text);
+    font-weight: 400;
+    padding: 0.5rem 0.85rem;
+    border-left: 2px solid var(--border-strong);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: var(--bg-card);
+  }
+
+  .step:first-child { border-top: none; }
+  .step.dim { color: var(--text-faint); background: transparent; border-left-color: var(--border); }
+  .step.kill { color: var(--accent); font-weight: 500; border-left-color: var(--accent); }
+  .step.kill::before { content: '×'; margin-right: 0.5rem; }
+  .step.live { color: #3a7; font-weight: 500; border-left-color: #3a7; }
+  .step.live::before { content: '✓'; margin-right: 0.5rem; }
+
+  /* --- Product slide --- */
+  .product-slide {
+    width: 100%;
+    background: var(--painting, var(--bg)) center/cover no-repeat !important;
+  }
+  .product-slide .slide-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+  }
+  .product-slide .product-meta {
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 12px 40px rgba(0,0,0,0.06);
+  }
+  .product-row {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+  .product-name {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .product-meta {
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: var(--radius);
+    padding: 2.25rem 2.5rem;
+    max-width: 540px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.03);
+  }
+  .product-num { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; font-weight: 400; }
+  .product-tag { font-size: 0.85rem; color: var(--text); font-weight: 500; margin-bottom: 0.75rem; font-style: italic; }
+  .product-headline {
+    font-size: clamp(1.25rem, 2vw, 1.65rem);
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .product-desc { font-size: clamp(0.85rem, 1.05vw, 0.95rem); color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.25rem; font-weight: 300; }
+  .product-stat { font-size: 0.8rem; color: var(--text-muted); font-weight: 400; }
+
+  /* --- Collage slide --- */
+  .slide.collage-slide { background: var(--bg); padding: 4vh 4vw; }
+  .collage {
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+  }
+  .collage img, .collage video { max-height: 92vh; max-width: 90vw; height: auto; width: auto; display: block; }
+  /* --- Code split slide --- */
+  .code-split-slide { background: var(--bg) !important; padding: 4vh 4vw !important; }
+  .code-split-slide.active { display: flex; align-items: center; justify-content: center; }
+  .code-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+    max-width: 1200px;
+    height: 70vh;
+  }
+  .code-split-panel {
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .code-split-chat { background: #1a1a1a; border-radius: var(--radius); }
+  .code-split-code-panel { background: #1e1e1e; border-radius: var(--radius); }
+  .code-split-result { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); }
+  .code-split-chrome {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.06);
+  }
+  .code-split-result .code-split-chrome { background: rgba(0,0,0,0.04); }
+  .code-split-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+  }
+  .code-split-result .code-split-dot { background: rgba(0,0,0,0.1); }
+  .code-split-filename {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    margin-left: 8px;
+    font-family: 'Inter', monospace;
+  }
+  .code-split-result .code-split-filename { color: var(--text-muted); }
+  .chat-messages {
+    flex: 1;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    overflow: hidden;
+  }
+  .chat-bubble {
+    padding: 0.6rem 0.85rem;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    max-width: 90%;
+  }
+  .chat-user {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    align-self: flex-end;
+  }
+  .chat-agent {
+    background: rgba(255,255,255,0.08);
+    color: #b0b0b0;
+    align-self: flex-start;
+  }
+  .chat-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 2px;
+  }
+  .chat-label-right { text-align: right; }
+  .code-split-code {
+    flex: 1;
+    padding: 1.5rem;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: #d4d4d4;
+    overflow: hidden;
+    margin: 0;
+    white-space: pre;
+    tab-size: 2;
+  }
+  .code-kw { color: #569cd6; }
+  .code-attr { color: #9cdcfe; }
+  .code-str { color: #ce9178; }
+  .code-split-render {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2.5rem;
+  }
+  .code-render-eyebrow {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+  .code-render-h1 {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .code-render-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+  }
+
+  /* --- Mæla split slide (solid style) --- */
+  .maela-split-slide { background: var(--bg) !important; padding: 4vh 4vw !important; }
+  .maela-split-slide.active { display: flex; align-items: center; justify-content: center; }
+  .maela-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 1100px;
+    height: 75vh;
+  }
+  .maela-panel { border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+  .maela-interface {
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .maela-video { background: #000; align-items: center; justify-content: center; }
+  .maela-video video { width: 100%; height: 100%; object-fit: cover; }
+  .maela-chrome {
+    display: flex; align-items: center; gap: 6px;
+    padding: 10px 14px; background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .maela-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+  .maela-title {
+    font-size: 0.65rem; color: rgba(255,255,255,0.4); margin-left: 8px;
+    font-family: 'SF Mono', 'Consolas', monospace; font-weight: 400; letter-spacing: 0.04em;
+  }
+  .maela-body { flex: 1; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+  .maela-section { display: flex; flex-direction: column; gap: 0.35rem; }
+  .maela-label {
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35); font-weight: 500;
+  }
+  .maela-textarea {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+    padding: 0.85rem; font-size: 0.78rem; line-height: 1.7; color: #f0f0f0; min-height: 80px;
+    font-family: inherit;
+  }
+  .maela-tag {
+    background: rgba(255,255,255,0.1); color: #f0f0f0; padding: 1px 6px; border-radius: 4px;
+    font-size: 0.65rem; font-weight: 500; border: 1px solid rgba(255,255,255,0.14);
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+  .maela-select {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+    padding: 0.6rem 0.85rem; font-size: 0.78rem; color: #f0f0f0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .maela-chevron { color: rgba(255,255,255,0.3); font-size: 0.7rem; }
+  .maela-btn {
+    background: rgba(255,255,255,0.08); color: #f0f0f0; border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 6px; padding: 0.65rem 1.25rem; font-size: 0.75rem; font-weight: 500;
+    cursor: pointer; align-self: flex-start; letter-spacing: 0.01em;
+    transition: background 0.2s;
+  }
+  .maela-player {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+    padding: 1rem; margin-top: auto;
+    display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .maela-player-top { display: flex; align-items: center; gap: 0.75rem; }
+  .maela-play {
+    width: 28px; height: 28px; background: rgba(255,255,255,0.1); color: #f0f0f0;
+    border: 1px solid rgba(255,255,255,0.14); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 0.6rem; flex-shrink: 0;
+  }
+  .maela-waveform { flex: 1; display: flex; align-items: flex-end; gap: 3px; height: 36px; }
+  .maela-wave-bar {
+    flex: 1; background: rgba(255,255,255,0.12); border-radius: 1px; min-height: 3px;
+  }
+  .maela-wave-bar.active { background: rgba(255,255,255,0.5); }
+  .maela-time { font-size: 0.6rem; color: rgba(255,255,255,0.3); flex-shrink: 0; font-family: 'SF Mono', monospace; }
+  .maela-sfx-track {
+    position: relative; height: 22px; margin-top: 0;
+    border-top: 1px dashed rgba(255,255,255,0.06);
+    padding-top: 4px;
+  }
+  .maela-sfx-marker {
+    position: absolute; top: 3px; font-size: 0.55rem; color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.05); padding: 1px 5px; border-radius: 3px; font-weight: 500;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .maela-hint {
+    font-size: 0.6rem; color: rgba(255,255,255,0.25); line-height: 1.5; margin-top: -0.25rem;
+  }
+  .maela-tag-inline {
+    font-family: 'SF Mono', 'Consolas', monospace; font-size: 0.58rem;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    padding: 0 4px; border-radius: 3px; color: rgba(255,255,255,0.35);
+  }
+  .maela-estimate {
+    font-size: 0.6rem; color: rgba(255,255,255,0.3);
+    font-family: 'SF Mono', 'Consolas', monospace; letter-spacing: 0.02em;
+  }
+  .maela-export {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.6rem 0.85rem;
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+  }
+  .maela-export-label {
+    font-size: 0.7rem; color: rgba(255,255,255,0.5); font-weight: 500;
+  }
+  .maela-export-formats { display: flex; gap: 4px; }
+  .maela-format {
+    font-size: 0.6rem; padding: 3px 8px; border-radius: 4px;
+    color: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.08);
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+  .maela-format.active {
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6);
+    border-color: rgba(255,255,255,0.14);
+  }
+  .maela-music-track {
+    position: relative; height: 30px; margin-top: 2px;
+    background: rgba(255,255,255,0.02); border-radius: 4px;
+    display: flex; align-items: center; padding: 0 8px; gap: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .maela-music-play {
+    width: 20px; height: 20px; border-radius: 50%; font-size: 0.45rem;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;
+  }
+  .maela-music-bar {
+    flex: 1; height: 4px; border-radius: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.04) 100%);
+  }
+  .maela-music-select {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 0.55rem; color: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+  .maela-music-select .maela-chevron { font-size: 0.5rem; color: rgba(255,255,255,0.2); }
+  .maela-ab {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .maela-ab-btn {
+    width: 24px; height: 24px; border-radius: 50%; font-size: 0.6rem; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.25);
+    background: transparent;
+  }
+  .maela-ab-btn.active {
+    background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6);
+    border-color: rgba(255,255,255,0.2);
+  }
+  .maela-ab-label {
+    font-size: 0.55rem; color: rgba(255,255,255,0.2);
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+
+  /* --- Fullscreen video slide --- */
+  .video-fullscreen-slide { background: var(--bg) !important; padding: 4vh 4vw !important; }
+  .video-fullscreen-slide.active { display: flex; align-items: center; justify-content: center; }
+  .video-container {
+    max-height: 85vh;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .video-container video {
+    display: block;
+    max-width: 100%;
+    max-height: 85vh;
+  }
+
+  /* --- Gap slide (cascade, craft) --- */
+  .gap-slide { background: var(--bg) !important; }
+  .gap-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .gap-text h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 400; letter-spacing: -0.03em; margin-bottom: 1rem; color: var(--text); }
+  .gap-cascade {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+  }
+  .gap-step {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text);
+    border-left: 1px solid var(--border-strong);
+  }
+  .gap-num {
+    font-family: 'SF Mono', 'Consolas', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    min-width: 1.2rem;
+  }
+  .gap-step.s1 { opacity: 1; }
+  .gap-step.s2 { opacity: 0.9; }
+  .gap-step.s3 { opacity: 0.8; }
+  .gap-step.s4 { opacity: 0.7; border-left-color: var(--border); }
+  .gap-step.s5 { opacity: 0.5; border-left-color: var(--border); padding-left: 1.5rem; }
+  .gap-step.s6 { opacity: 0.4; border-left-color: var(--border); padding-left: 2rem; }
+  .gap-step.s7 { opacity: 0.3; border-left-color: var(--border); padding-left: 2.5rem; }
+  .gap-step.s8 { opacity: 0.22; border-left-color: var(--border); padding-left: 3rem; }
+  .gap-step.s9 { opacity: 0.15; border-left-color: var(--border); padding-left: 3.5rem; }
+  .gap-step.s10 {
+    opacity: 0.8;
+    color: var(--accent);
+    border-left: 2px solid var(--accent);
+    padding-left: 4rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+  }
+  .gap-step.s10 .gap-num { color: var(--accent); font-weight: 600; }
+
+  /* Clean cascade — all visible, final step highlighted */
+  .gap-step.n5, .gap-step.n4, .gap-step.n3, .gap-step.n2 {
+    opacity: 1;
+    border-left-color: var(--border-strong);
+  }
+  .gap-step.n1 {
+    opacity: 1;
+    color: #3a7;
+    border-left: 2px solid #3a7;
+    font-weight: 500;
+    margin-top: 0.25rem;
+  }
+  .gap-step.n1 .gap-num { color: #3a7; font-weight: 600; }
+
+  .collage .placeholder {
+    color: var(--text-faint);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 4rem;
+    text-align: center;
+    background: var(--bg-card-warm);
+    aspect-ratio: 3/4;
+    height: 92vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* --- Bullet list --- */
+  .bullet-list { list-style: none; margin-top: 1rem; }
+  .bullet-list li {
+    font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+    color: var(--text);
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+  .bullet-list li::before { content: '—'; position: absolute; left: 0; color: var(--text-faint); }
+
+  /* --- JEDUF --- */
+  .jeduf { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+  .jeduf-col {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.1rem 1.5rem;
+    background: var(--bg-card);
+    display: flex;
+    flex-direction: column;
+  }
+  .jeduf-col.hero-col { background: var(--bg-dark); border-color: transparent; color: var(--text-light); }
+  .jeduf-label { font-size: 0.6rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.4rem; }
+  .jeduf-col.hero-col .jeduf-label { color: #888; }
+  .jeduf-title { font-size: clamp(0.95rem, 1.2vw, 1.15rem); font-weight: 400; letter-spacing: -0.01em; margin-bottom: 0.35rem; }
+  .jeduf-philosophy { font-size: 0.7rem; color: var(--text-muted); font-style: italic; line-height: 1.5; margin-bottom: 1rem; min-height: 30pt; font-weight: 300; }
+  .jeduf-col.hero-col .jeduf-philosophy { color: #ccc; }
+  .jeduf-step {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.4rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 400;
+    text-align: center;
+    background: var(--bg-card-warm);
+    margin-bottom: 0.35rem;
+  }
+  .jeduf-col.hero-col .jeduf-step { background: #2a2a2a; border-color: #3a3a3a; color: var(--text-light); }
+  .jeduf-impact {
+    margin-top: 0.5rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.65rem;
+    font-weight: 400;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+  .jeduf-col.hero-col .jeduf-impact { border-top-color: #3a3a3a; color: rgba(255,255,255,0.5); }
+
+  /* --- Blind spot cascade --- */
+  .blind-spot-cascade {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .blind-spot-step {
+    padding: 0.6rem 0.75rem;
+    font-size: clamp(0.75rem, 1vw, 0.9rem);
+    font-weight: 400;
+    color: var(--text);
+    border-left: 2px solid var(--border);
+    margin-left: 0;
+  }
+  .blind-spot-step .gap-num {
+    display: inline-block;
+    width: 1.5rem;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+  .blind-spot-step.b1 { opacity: 1; }
+  .blind-spot-step.b2 { opacity: 0.75; margin-left: 0.5rem; }
+  .blind-spot-step.b3 { opacity: 0.55; margin-left: 1rem; }
+  .blind-spot-step.b4 { opacity: 0.35; margin-left: 1.5rem; }
+  .blind-spot-step.b5 {
+    opacity: 1;
+    margin-left: 2rem;
+    border-left-color: var(--accent);
+    font-weight: 500;
+    color: var(--accent);
+    margin-top: 0.25rem;
+  }
+  .blind-spot-step.b5 .gap-num { color: var(--accent); }
+
+  /* --- Closing slide --- */
+  .closing-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    width: 100%;
+  }
+  .closing-left { flex: 1; }
+  .closing-photo {
+    width: 5rem;
+    height: 5rem;
+    border-radius: var(--radius);
+    object-fit: cover;
+    border: 1px solid var(--border);
+  }
+  .closing-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .closing-qr {
+    width: 22rem;
+    height: 22rem;
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 1rem;
+    border: 1px solid var(--border);
+  }
+  .closing-cta {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+  .closing-linkedin {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-weight: 400;
+  }
+  .closing-linkedin:hover { color: var(--accent); }
+
+  /* --- Spec transparency --- */
+  .spec-flow { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+  .spec-block-big {
+    background: var(--bg-dark);
+    color: var(--text-light);
+    border-radius: var(--radius);
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .spec-block-big h3 { font-size: 1.05rem; font-weight: 400; }
+  .spec-block-big p { font-size: 0.85rem; font-weight: 300; color: #888; }
+
+  .ctx-row { display: flex; align-items: center; justify-content: flex-start; gap: 0.5rem; flex-wrap: wrap; padding: 0 0.5rem; }
+  .ctx-label { font-size: 0.7rem; color: var(--text-faint); margin-right: 0.4rem; font-style: italic; font-weight: 300; }
+  .ctx-pill { font-size: 0.72rem; color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px; padding: 0.3rem 0.85rem; font-weight: 400; }
+
+  .ai-divider { display: flex; align-items: center; gap: 1rem; padding: 0 0.5rem; }
+  .ai-divider .line { flex: 1; height: 1px; background: var(--border); }
+  .ai-pill { font-size: 0.7rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .outputs-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .output-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; background: var(--bg-card); }
+  .output-card h4 { font-size: 0.9rem; font-weight: 400; margin-bottom: 0.2rem; }
+  .output-card p { font-size: 0.72rem; color: var(--text-muted); line-height: 1.45; font-weight: 300; }
+
+  /* --- Stack slide --- */
+  .stack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem; }
+  .stack-group { border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.1rem 1.25rem; background: var(--bg-card); }
+  .stack-group-label { font-size: 0.6rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.85rem; }
+  .stack-tools { display: flex; flex-direction: column; gap: 0.55rem; }
+  .stack-tool { display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; font-weight: 400; letter-spacing: -0.01em; color: var(--text); }
+  .stack-tool .mark { width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .stack-tool .mark svg { width: 100%; height: 100%; fill: var(--text); }
+
+  /* --- Dot flow --- */
+  .dot-flow { display: grid; grid-template-columns: repeat(5, 1fr); margin: 4rem 0 2rem; position: relative; }
+  .dot-flow::before { content: ''; position: absolute; top: 4px; left: 8%; right: 8%; height: 1px; background: var(--border-strong); }
+  .dot-step { text-align: center; position: relative; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); margin: 0 auto 0.85rem; position: relative; z-index: 1; }
+  .dot-step h4 { font-size: 0.85rem; font-weight: 500; margin-bottom: 0.2rem; }
+  .dot-step p { font-size: 0.7rem; color: var(--text-muted); line-height: 1.4; padding: 0 0.5rem; font-weight: 300; }
+
+  /* --- Scale proof --- */
+  .scale-proof { margin-top: 5rem; padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); position: relative; }
+  .scale-proof-label { font-size: 0.65rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 2rem; }
+  .scale-proof-stats { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: start; gap: 1.5rem; }
+  .proof-stat { display: flex; flex-direction: column; gap: 0.25rem; }
+  .proof-stat strong { font-size: clamp(2.4rem, 4.5vw, 3.5rem); font-weight: 300; letter-spacing: -0.035em; line-height: 1; color: var(--text); }
+  .proof-stat span { font-size: 0.85rem; color: var(--text-muted); font-weight: 300; }
+  .proof-divider { width: 1px; height: 40px; background: var(--border); }
+
+  /* --- Timeline --- */
+  .timeline { margin-top: 2rem; }
+  .timeline-row { display: grid; grid-template-columns: 80px 24px 1fr; gap: 1.5rem; min-height: 60px; align-items: start; }
+  .timeline-year { font-size: 0.8rem; font-weight: 500; text-align: right; padding-top: 2px; color: var(--text-muted); }
+  .timeline-track { display: flex; flex-direction: column; align-items: center; height: 100%; }
+  .timeline-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .timeline-line { width: 1px; flex: 1; background: var(--border); margin-top: 4px; }
+  .timeline-row:last-child .timeline-line { display: none; }
+  .timeline-content h4 { font-size: 0.85rem; font-weight: 500; margin-bottom: 0.15rem; }
+  .timeline-content p { font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4; font-weight: 300; }
+
+  /* --- Stat grid --- */
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+  .stat-card.stat-dark { background: var(--bg-dark); color: var(--text-light); border-color: transparent; }
+  .stat-label { font-size: 0.65rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .stat-dark .stat-label { color: #888; }
+  .stat-number { font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; letter-spacing: -0.03em; line-height: 1; margin-bottom: 0.5rem; }
+  .stat-desc { font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4; font-weight: 300; }
+  .stat-dark .stat-desc { color: #999; }
+
+  /* --- Spec comparison --- */
+  .spec-compare {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0;
+    margin-top: 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .spec-col { padding: 1.5rem 1.75rem; }
+  .spec-col-label {
+    font-size: 0.6rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .spec-col-label.positive { color: var(--text); }
+  .spec-col-label.negative { color: var(--text-faint); }
+  .spec-divider { background: var(--border); }
+  .spec-items { display: flex; flex-direction: column; gap: 0.85rem; }
+  .spec-item strong {
+    display: block;
+    font-size: clamp(0.72rem, 1.15vw, 0.85rem);
+    font-weight: 500;
+    margin-bottom: 0.15rem;
+    letter-spacing: -0.01em;
+  }
+  .spec-item span {
+    display: block;
+    font-size: clamp(0.6rem, 1vw, 0.7rem);
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  .spec-col-negative .spec-item strong {
+    color: var(--text-faint);
+    font-weight: 400;
+  }
+  .spec-col-negative .spec-item span { color: var(--text-faint); }
+
+  /* --- Nav --- */
+  .nav {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-size: 0.7rem;
+    color: var(--text-faint);
+    font-weight: 400;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav-buttons { display: flex; gap: 0.35rem; }
+  .nav-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-faint);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    padding: 0;
+    transition: all 0.15s;
+  }
+
+  .nav-btn:hover { border-color: var(--text); color: var(--text); }
+
+  .talk-meta {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    font-size: 0.7rem;
+    color: var(--text-faint);
+    font-weight: 400;
+    z-index: 100;
+  }
+  .deck-watermark {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    color: var(--text);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    z-index: 100;
+  }
+
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+    z-index: 100;
+  }
+
+  .pdf-btn {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    border: none;
+    padding: 0.55rem 1.25rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    transition: background 0.15s;
+  }
+
+  .pdf-btn:hover { background: #000; }
+
+  /* Print */
+  @page { size: 13.333in 7.5in; margin: 0; }
+  @media print {
+    html, body { width: 13.333in; height: auto !important; overflow: visible !important; background: var(--bg); -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .deck { width: 13.333in; height: auto; position: static; }
+    .slide { display: flex !important; position: relative !important; inset: auto !important; width: 13.333in !important; height: 7.5in !important; page-break-after: always !important; break-after: page !important; page-break-inside: avoid !important; break-inside: avoid !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .slide:last-child { page-break-after: auto !important; break-after: auto !important; }
+    .slide.dark { background: var(--bg-dark) !important; }
+    .nav, .talk-meta, .progress, .pdf-btn { display: none !important; }
+    .deck-watermark { display: none !important; }
+    .slide .slide-watermark { display: flex !important; justify-content: space-between; position: absolute; top: 1.5rem; left: 1.5rem; right: 1.5rem; font-size: 0.65rem; color: var(--text); font-weight: 400; letter-spacing: 0.02em; }
+    .slide.dark .slide-watermark { color: var(--text-light); }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck">
+
+  <!-- 1. Cover -->
+  <section class="slide active">
+    <div class="slide-inner">
+      <div class="eyebrow">Morgenbooster · 13 May 2026</div>
+      <h1>Building <span class="dim">with a vibe.</span></h1>
+      <div class="meta">Nils Smed, Partner at Heyra — The AI Orchestration Company</div>
+    </div>
+  </section>
+
+  <!-- 2. Confession -->
+  <section class="slide quote-slide">
+    <div class="slide-inner">
+      <h1>I am not a very <span class="dim">patient person.</span></h1>
+    </div>
+  </section>
+
+  <!-- 3. The builds intro -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Last year alone</div>
+      <h1>So I built 20 tools <span class="dim">in a year.</span></h1>
+      <p class="subtitle">3x founder. Product designer by background. For most of my career, there was a frustrating gap between having an idea and having a thing that exists in the world.</p>
+    </div>
+  </section>
+
+  <!-- 4. The gap -->
+  <section class="slide gap-slide">
+    <div class="slide-inner">
+      <div class="gap-layout">
+        <div class="gap-text">
+          <div class="eyebrow">Act 1 — The gap</div>
+          <h2>Building was slow <span class="dim">and expensive.</span></h2>
+          <p class="subtitle">Most ideas died here. Not because they were bad — because the cost was too high relative to "let's see if this even works."</p>
+        </div>
+        <div class="gap-cascade">
+          <div class="gap-step s1"><span class="gap-num">01</span> Idea</div>
+          <div class="gap-step s2"><span class="gap-num">02</span> Sketch</div>
+          <div class="gap-step s3"><span class="gap-num">03</span> Figma</div>
+          <div class="gap-step s4"><span class="gap-num">04</span> "Cool."</div>
+          <div class="gap-step s5"><span class="gap-num">05</span> Developer needed</div>
+          <div class="gap-step s6"><span class="gap-num">06</span> Budget needed</div>
+          <div class="gap-step s7"><span class="gap-num">07</span> Timeline needed</div>
+          <div class="gap-step s8"><span class="gap-num">08</span> Meeting</div>
+          <div class="gap-step s9"><span class="gap-num">09</span> Another meeting</div>
+          <div class="gap-step s10"><span class="gap-num">×</span> Idea dies</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breaker -->
+  <section class="slide quote-slide">
+    <div class="slide-inner">
+      <h1>Everyone just <span class="dim">accepted it.</span></h1>
+    </div>
+  </section>
+
+  <!-- 5. The shift -->
+  <section class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">Act 2 — The shift</div>
+      <h1>Then the cost <span class="dim">collapsed.</span></h1>
+      <p class="subtitle">It used to be: <em>can we build this?</em> Now it's just: do you have an idea and a few hours? The gap between idea and existence has collapsed.</p>
+    </div>
+  </section>
+
+  <!-- 5b. The new way -->
+  <section class="slide gap-slide">
+    <div class="slide-inner">
+      <div class="gap-layout">
+        <div class="gap-text">
+          <div class="eyebrow">Now</div>
+          <h2>Building is cheap <span class="dim">and fast.</span></h2>
+          <p class="subtitle">Same instinct. Fewer gates. Idea to existence in a few hours.</p>
+        </div>
+        <div class="gap-cascade">
+          <div class="gap-step n5"><span class="gap-num">01</span> Idea</div>
+          <div class="gap-step n4"><span class="gap-num">02</span> Describe it</div>
+          <div class="gap-step n3"><span class="gap-num">03</span> Build with AI</div>
+          <div class="gap-step n2"><span class="gap-num">04</span> Ship</div>
+          <div class="gap-step n1"><span class="gap-num">✓</span> Idea lives</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Four builds intro -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Act 3 — The builds</div>
+      <h1>Each one started <span class="dim">as a frustration.</span></h1>
+      <p class="subtitle">No market research. No competitor analysis. Just: this annoys me, let me fix it.</p>
+    </div>
+  </section>
+
+  <!-- 7. Unsub™ -->
+  <section class="slide product-slide" style="--painting: url('media/KMSsp214.jpg')">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-name">Unsub™</div>
+          <div class="product-num">/01</div>
+          <div class="product-tag">10,000 unread emails</div>
+          <h3 class="product-headline">Connects to Gmail. Scans for newsletters. One big wipe.</h3>
+          <p class="product-desc">No hunting for tiny unsubscribe links at the bottom of emails. Built it because I needed it. Shipped it because maybe you do too.</p>
+          <div class="product-stat">A few hours · One weekend</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide collage-slide">
+    <div class="collage"><video src="media/unsub.mp4" controls loop playsinline></video></div>
+  </section>
+
+
+
+  <!-- 11. Explain™ -->
+  <section class="slide product-slide" style="--painting: url('media/KMS580.jpg')">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-name">Explain™</div>
+          <div class="product-num">/09</div>
+          <div class="product-tag">"I don't speak medical."</div>
+          <h3 class="product-headline">Reads my health records. Explains them in plain language.</h3>
+          <p class="product-desc">Built in a 1:1 with Anja from sundhed.dk using Cursor, on my own data. Notes, observations, language meant for professionals. Returns: what happened, what the note means, and how it matters to me.</p>
+          <div class="product-stat">No guessing · No jargon · Just plain language</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide collage-slide">
+    <div class="collage"><video src="media/explain.mp4" controls loop playsinline></video></div>
+  </section>
+
+  <!-- 12. Mæla™ -->
+  <section class="slide product-slide" style="--painting: url('media/KMS1971.jpg')">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-name">Mæla™</div>
+          <div class="product-num">/10</div>
+          <div class="product-tag">"Built with Adam. Speaks Danish. Really well."</div>
+          <h3 class="product-headline">A Danish AI voice tool that sounds human.</h3>
+          <p class="product-desc">Write a script. Pick a voice. Adjust tone, tempo, pronunciation. Add music. Get a Danish voiceover, production-ready. From radio spots to full voiceovers. 100% AI, still feels human.</p>
+          <div class="product-stat">With Adam Haxholdt · Going live soon</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mæla voicetest 1 -->
+  <section class="slide video-fullscreen-slide">
+    <div class="video-container">
+      <video src="media/Mæla_Voicetest_001-2.mp4" controls playsinline></video>
+    </div>
+  </section>
+
+  <!-- Mæla voicetest 2 -->
+  <section class="slide video-fullscreen-slide">
+    <div class="video-container">
+      <video src="media/Mæla_voicetest_002-3.mp4" controls playsinline></video>
+    </div>
+  </section>
+
+
+
+
+
+  <!-- 14. Slides™ -->
+  <section class="slide product-slide" style="--painting: url('media/background3.jpg')">
+    <div class="slide-inner">
+      <div class="product-row">
+        <div class="product-meta">
+          <div class="product-name">Slides™</div>
+          <div class="product-num">/14</div>
+          <div class="product-tag">PowerPoint sucks, or do I suck at PowerPoint?</div>
+          <h3 class="product-headline">Write slides in HTML. No build step. No dependencies. Ship from a single file.</h3>
+          <p class="product-desc">This deck was built with it. Design system, swipe nav, keyboard shortcuts, embed mode. Works with AI agents. Open source. Drop your storyline and let an AI agent handle the rest.</p>
+          <div class="product-stat">One HTML file · Open source</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide collage-slide">
+    <div class="collage"><video src="media/KMS1644-2.mp4" controls loop playsinline></video></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+      <div class="eyebrow">Try it</div>
+      <h2 style="margin-bottom: 1.5rem;">Clone. Write your story. Ship.</h2>
+      <div style="background: var(--bg-dark); color: #d4d4d4; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: clamp(0.7rem, 1.2vw, 0.9rem); padding: 1rem 1.75rem; border-radius: var(--radius-sm); letter-spacing: 0.01em;">git clone https://github.com/noskillish/slides.git</div>
+      <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1.25rem; font-weight: 300;">One file. Open source. Works with any AI agent.</div>
+    </div>
+  </section>
+
+  <!-- Breaker / Recap -->
+  <section class="slide quote-slide">
+    <div class="slide-inner">
+      <h1>How the fuck <span class="dim">did one person do all that?</span></h1>
+    </div>
+  </section>
+
+  <!-- JEDUF -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">How I actually work</div>
+      <h2>Just enough design up front.</h2>
+      <p class="subtitle">Between rigid waterfall and pure chaos. The middle path is where the speed compounds without the mess.</p>
+      <div class="jeduf">
+        <div class="jeduf-col">
+          <div class="jeduf-label">Too much</div>
+          <div class="jeduf-title">Waterfall <span class="dim">(BDUF)</span></div>
+          <div class="jeduf-philosophy">"Plan enough and you won't get hurt."</div>
+          <div class="jeduf-step">Full requirements</div>
+          <div class="jeduf-step">Full design</div>
+          <div class="jeduf-step">Full build</div>
+          <div class="jeduf-step">Big, slow release</div>
+          <div class="jeduf-impact">Slow or stuck. High quality when it ships — if it ever ships.</div>
+        </div>
+        <div class="jeduf-col hero-col">
+          <div class="jeduf-label">Just right</div>
+          <div class="jeduf-title">Spec-driven <span class="dim">(JEDUF)</span></div>
+          <div class="jeduf-philosophy">"Think upfront about where you're heading, then find the path."</div>
+          <div class="jeduf-step">Define must / should / could / won't</div>
+          <div class="jeduf-step">Spec with the agent</div>
+          <div class="jeduf-step">Build + iterate</div>
+          <div class="jeduf-step">Refine + ship</div>
+          <div class="jeduf-impact">Fast with focus. Quality and direction stay intact.</div>
+        </div>
+        <div class="jeduf-col">
+          <div class="jeduf-label">Too little</div>
+          <div class="jeduf-title">Vibe coding <span class="dim">(No DUF)</span></div>
+          <div class="jeduf-philosophy">"Dive in, YOLO mode. You'll figure it out."</div>
+          <div class="jeduf-step">Prompt something</div>
+          <div class="jeduf-step">Accept all</div>
+          <div class="jeduf-step">Prompt again</div>
+          <div class="jeduf-step">Hope for the best</div>
+          <div class="jeduf-impact">Fast but fragile. No direction, no quality control, pure luck.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflow: Describe -->
+  <section class="slide">
+    <div class="slide-inner" style="padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div class="eyebrow" style="margin-bottom: 0.75rem; align-self: flex-start; padding-left: 3%;">01 · Describe it</div>
+      <img src="media/workflow-1-describe.png" alt="Describe the idea" style="width: 95%; max-height: 82vh; object-fit: contain; border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+    </div>
+  </section>
+
+  <!-- Workflow: Plan -->
+  <section class="slide">
+    <div class="slide-inner" style="padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div class="eyebrow" style="margin-bottom: 0.75rem; align-self: flex-start; padding-left: 3%;">02 · It plans</div>
+      <img src="media/workflow-2-plan.png" alt="Agent creates a plan" style="width: 95%; max-height: 82vh; object-fit: contain; border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+    </div>
+  </section>
+
+  <!-- Workflow: Build -->
+  <section class="slide">
+    <div class="slide-inner" style="padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div class="eyebrow" style="margin-bottom: 0.75rem; align-self: flex-start; padding-left: 3%;">03 · It builds</div>
+      <img src="media/workflow-3-build.png" alt="Agent builds the tool" style="width: 95%; max-height: 82vh; object-fit: contain; border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+    </div>
+  </section>
+
+  <!-- Workflow: Refine -->
+  <section class="slide">
+    <div class="slide-inner" style="padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div class="eyebrow" style="margin-bottom: 0.75rem; align-self: flex-start; padding-left: 3%;">04 · You refine</div>
+      <img src="media/workflow-4-refine.png" alt="Refine the product" style="width: 95%; max-height: 82vh; object-fit: contain; border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+    </div>
+  </section>
+
+  <!-- Spec transparency -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">The trick</div>
+      <h2>One spec <span class="dim">drives everything.</span></h2>
+      <p class="subtitle">Write the idea down clearly. The agent reads it, knows the context, executes against it. The spec is what turns a few hours into something real.</p>
+      <div class="spec-flow">
+        <div class="spec-block-big">
+          <h3>The Spec</h3>
+          <p>What you want · how it should feel · what good looks like</p>
+        </div>
+        <div class="ctx-row">
+          <span class="ctx-label">AI agent draws from</span>
+          <div class="ctx-pill">Codebase</div>
+          <div class="ctx-pill">History</div>
+          <div class="ctx-pill">Standards</div>
+          <div class="ctx-pill">.md files</div>
+          <div class="ctx-pill">Your taste</div>
+        </div>
+        <div class="ai-divider">
+          <div class="line"></div>
+          <div class="ai-pill">AI orchestrates</div>
+          <div class="line"></div>
+        </div>
+        <div class="outputs-row">
+          <div class="output-card"><h4>Plan</h4><p>Agent drafts the build. You approve.</p></div>
+          <div class="output-card"><h4>Execute</h4><p>Agent builds against the spec. Scope stays locked.</p></div>
+          <div class="output-card"><h4>Ship</h4><p>Real, clickable, usable. In hours.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- At scale -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">And yes — it works at scale</div>
+      <h2>It scales <span class="dim">to enterprises.</span></h2>
+
+      <div class="dot-flow">
+        <div class="dot-step"><div class="dot"></div><h4>Spec</h4><p>Intake & standards</p></div>
+        <div class="dot-step"><div class="dot"></div><h4>Plan</h4><p>Agent drafts, human approves</p></div>
+        <div class="dot-step"><div class="dot"></div><h4>Execute</h4><p>Sandboxed, spec-locked</p></div>
+        <div class="dot-step"><div class="dot"></div><h4>Review</h4><p>AI first, human on substance</p></div>
+        <div class="dot-step"><div class="dot"></div><h4>Deploy</h4><p>Gated to production</p></div>
+      </div>
+
+      <div class="scale-proof">
+        <img src="media/NNF-INT_logo_blue_RGB_solid.png" alt="Novo Nordisk Foundation" style="position: absolute; top: 1.5rem; right: 1.5rem; height: 1.25rem; opacity: 0.5;">
+        <div class="scale-proof-label">Proven at Novo Nordisk Foundation</div>
+        <div class="scale-proof-stats">
+          <div class="proof-stat"><span>Deployed a spec-driven agent orchestration layer in the foundation's data team. Built to fit their existing tech stack.</span></div>
+          <div class="proof-divider"></div>
+          <div class="proof-stat"><strong>7×</strong><span>engineering output</span></div>
+          <div class="proof-divider"></div>
+          <div class="proof-stat"><strong>35</strong><span>use cases / week / engineer · up from 5</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- What AI doesn't know -->
+  <section class="slide blind-spot-slide gap-slide">
+    <div class="slide-inner">
+      <div class="gap-layout">
+        <div class="gap-text">
+          <div class="eyebrow">The blind spot</div>
+          <h2>AI builds what you ask for <span class="dim">not what you need.</span></h2>
+          <p class="subtitle">It builds what you ask for. Not what you should be building.</p>
+        </div>
+        <div class="blind-spot-cascade">
+          <div class="blind-spot-step b1"><span class="gap-num">01</span> Doesn't know your users</div>
+          <div class="blind-spot-step b2"><span class="gap-num">02</span> Doesn't have taste</div>
+          <div class="blind-spot-step b3"><span class="gap-num">03</span> Can't feel the difference</div>
+          <div class="blind-spot-step b4"><span class="gap-num">04</span> Solves the wrong problem</div>
+          <div class="blind-spot-step b5"><span class="gap-num">→</span> That's still you</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Close -->
+  <section class="slide dark quote-slide">
+    <div class="slide-inner">
+      <h1>The tools changed.<br><span class="dim">The instinct is still yours.</span></h1>
+    </div>
+  </section>
+
+  <!-- Thanks -->
+  <section class="slide closing-slide">
+    <div class="slide-inner">
+      <div class="closing-layout">
+        <div class="closing-left">
+          <h1>Thanks.</h1>
+          <p class="subtitle">Questions?</p>
+          <div class="meta">Nils Smed · Partner at Heyra</div>
+        </div>
+        <div class="closing-right">
+          <img src="media/linkedin-qr.svg" alt="LinkedIn QR" class="closing-qr">
+          <span class="closing-cta">Connect with me</span>
+          <a href="https://www.linkedin.com/in/nilssmed/" class="closing-linkedin">linkedin.com/in/nilssmed</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="talk-meta">Designing with a vibe · Morgenbooster 13.05.26</div>
+<div class="deck-watermark"><span>Heyra</span><span>The AI Orchestration Company</span></div>
+
+<button class="pdf-btn" onclick="downloadPDF()">Download PDF</button>
+
+<div class="nav">
+  <span id="counter">1 / 38</span>
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="prev()">‹</button>
+    <button class="nav-btn" onclick="next()">›</button>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.slide').forEach(s => {
+    const wm = document.createElement('div');
+    wm.className = 'slide-watermark';
+    wm.innerHTML = '<span>Heyra</span><span>The AI Orchestration Company</span>';
+    wm.style.display = 'none';
+    s.appendChild(wm);
+  });
+  const slides = document.querySelectorAll('.slide:not(.hidden-slide)');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  let current = 0;
+
+  const watermark = document.querySelector('.deck-watermark');
+  function show(i) {
+    slides.forEach(s => s.classList.remove('active'));
+    slides[i].classList.add('active');
+    counter.textContent = `${i + 1} / ${slides.length}`;
+    progress.style.width = `${((i + 1) / slides.length) * 100}%`;
+    watermark.style.color = slides[i].classList.contains('dark') ? 'var(--text-light)' : 'var(--text)';
+    current = i;
+  }
+
+  function next() { if (current < slides.length - 1) show(current + 1); }
+  function prev() { if (current > 0) show(current - 1); }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+    if (e.key === 'Home') { show(0); }
+    if (e.key === 'End') { show(slides.length - 1); }
+    if (e.key === 'p' || e.key === 'P') { e.preventDefault(); downloadPDF(); }
+  });
+
+  function downloadPDF() {
+    const originalTitle = document.title;
+    document.title = 'morgenbooster-deck';
+    window.print();
+    setTimeout(() => { document.title = originalTitle; }, 1000);
+  }
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+  const SWIPE_THRESHOLD = 50;
+
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    const dy = e.changedTouches[0].screenY - touchStartY;
+    if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dy) > Math.abs(dx)) return;
+    if (dx < 0) next();
+    else prev();
+  }, { passive: true });
+
+  const isEmbed = new URLSearchParams(window.location.search).has('embed');
+  if (isEmbed) {
+    document.querySelector('.pdf-btn').style.display = 'none';
+  }
+
+  show(0);
+</script>
+
+</body>
+</html>
