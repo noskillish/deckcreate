@@ -789,24 +789,27 @@ strong{font-weight:600}
   <div class="body pad-lg" style="gap:clamp(16px,2.4vh,32px)">
     <div class="stack-sm">
       <h1 class="h1" style="max-width:24ch">There is no handoff to design for.</h1>
-      <p class="copy" style="max-width:60ch">One repo. Designers, engineers and agents each take a branch, a person reviews it, and it merges straight into the product.</p>
+      <p class="copy" style="max-width:60ch">One repo. Designers, engineers and agents each take a branch, sometimes on the same screen at once. A person reviews it, and it merges straight into the product.</p>
     </div>
     <div class="flowmap">
-      <svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="One main line, the product. A designer, an engineer and an agent each branch off it, commit work, and merge back in after a review. The line ends live.">
-        <path class="br" d="M90 200 C125 200 125 80 160 80 L460 80 C495 80 495 200 530 200"/>
-        <path class="br" d="M320 200 C355 200 355 320 390 320 L710 320 C745 320 745 200 780 200"/>
-        <path class="br" d="M590 200 C625 200 625 80 660 80 L960 80 C995 80 995 200 1030 200"/>
-        <line class="main" x1="30" y1="200" x2="1090" y2="200"/>
+      <svg viewBox="0 0 1200 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="One main line, the product. Two designers branch off at the same time to work on the same screen and merge back separately. An agent and an engineer branch off later. Every branch merges back after a review. The line ends live.">
+        <path class="br" d="M80 210 C115 210 115 80 150 80 L465 80 C500 80 500 210 535 210"/>
+        <path class="br" d="M140 210 C175 210 175 340 210 340 L525 340 C560 340 560 210 595 210"/>
+        <path class="br" d="M660 210 C695 210 695 80 730 80 L1005 80 C1040 80 1040 210 1075 210"/>
+        <path class="br" d="M620 210 C655 210 655 340 690 340 L945 340 C980 340 980 210 1015 210"/>
+        <line class="main" x1="30" y1="210" x2="1100" y2="210"/>
         <g class="cm"><circle cx="230" cy="80" r="9"/><circle cx="310" cy="80" r="9"/><circle cx="390" cy="80" r="9"/>
-          <circle cx="470" cy="320" r="9"/><circle cx="550" cy="320" r="9"/><circle cx="630" cy="320" r="9"/>
-          <circle cx="730" cy="80" r="9"/><circle cx="810" cy="80" r="9"/><circle cx="890" cy="80" r="9"/></g>
-        <text class="who" x="170" y="44">Designer</text><text class="what" x="290" y="44">builds the screen in code</text>
-        <text class="who" x="400" y="374">Engineer</text><text class="what" x="520" y="374">hardens it</text>
-        <text class="who" x="670" y="44">Agent</text><text class="what" x="752" y="44">builds against the spec</text>
-        <g class="mg"><rect x="521" y="191" width="18" height="18"/><rect x="771" y="191" width="18" height="18"/><rect x="1021" y="191" width="18" height="18"/></g>
-        <text class="lbl" x="530" y="238">Review</text><text class="lbl" x="780" y="176">Review</text><text class="lbl" x="1030" y="238">Review</text>
-        <text class="lbl" x="30" y="238" style="text-anchor:start">main · the product</text>
-        <rect class="live" x="1090" y="178" width="96" height="44" rx="2"/><text class="livet" x="1138" y="206">Live</text>
+          <circle cx="290" cy="340" r="9"/><circle cx="370" cy="340" r="9"/><circle cx="450" cy="340" r="9"/>
+          <circle cx="800" cy="80" r="9"/><circle cx="870" cy="80" r="9"/><circle cx="940" cy="80" r="9"/>
+          <circle cx="750" cy="340" r="9"/><circle cx="815" cy="340" r="9"/><circle cx="880" cy="340" r="9"/></g>
+        <text class="who" x="150" y="44">Designer</text><text class="what" x="270" y="44">builds the screen in code</text>
+        <text class="who" x="210" y="394">Designer</text><text class="what" x="330" y="394">same screen, own branch</text>
+        <text class="who" x="730" y="44">Agent</text><text class="what" x="812" y="44">builds against the spec</text>
+        <text class="who" x="690" y="394">Engineer</text><text class="what" x="810" y="394">hardens it</text>
+        <g class="mg"><rect x="526" y="201" width="18" height="18"/><rect x="586" y="201" width="18" height="18"/><rect x="1006" y="201" width="18" height="18"/><rect x="1066" y="201" width="18" height="18"/></g>
+        <rect class="live" x="1100" y="188" width="90" height="44" rx="2"/><text class="livet" x="1145" y="216">Live</text>
+        <line class="main" x1="30" y1="437" x2="70" y2="437" style="stroke-width:5"/><text class="lbl" x="84" y="442" style="text-anchor:start">main · the product</text>
+        <rect x="300" y="428" width="18" height="18" style="fill:var(--gold)"/><text class="lbl" x="330" y="442" style="text-anchor:start">a person reviews, then it merges</text>
       </svg>
     </div>
   </div>
