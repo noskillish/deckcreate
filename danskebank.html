@@ -345,6 +345,19 @@ strong{font-weight:600}
 .qr{background:var(--card);border-radius:var(--r);padding:clamp(12px,1.4vw,20px);width:clamp(180px,20vh,260px);height:clamp(180px,20vh,260px);display:flex;align-items:center;justify-content:center}
 .qr img{width:100%;height:100%;object-fit:contain}
 
+/* flow map: one repo, three branches, review gates */
+.flowmap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.flowmap svg{width:100%;height:100%;max-height:62vh;display:block}
+.flowmap .main{stroke:var(--ink);stroke-width:6;stroke-linecap:round}
+.flowmap .br{fill:none;stroke:var(--taupe);stroke-width:3.5}
+.flowmap .cm circle{fill:var(--card);stroke:var(--taupe);stroke-width:3.5}
+.flowmap .mg rect{fill:var(--gold)}
+.flowmap .who{font-family:var(--sans);font-size:26px;font-weight:600;fill:var(--ink);letter-spacing:-.01em}
+.flowmap .what{font-family:var(--sans);font-size:24px;fill:var(--ink-60)}
+.flowmap .lbl{font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;fill:var(--ink-60);text-anchor:middle}
+.flowmap .live{fill:var(--gold)}
+.flowmap .livet{font-family:var(--mono);font-size:16px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;fill:var(--ink);text-anchor:middle}
+
 @media print{.nav,.progress{display:none!important}.slide{display:flex!important;position:relative;height:100vh;page-break-after:always;padding:8px}}
 
 
@@ -772,20 +785,29 @@ strong{font-weight:600}
 <section class="slide">
 
 <div class="tile">
-  <div class="rail"><span>Design &amp; Tech</span><span class="idx"><span class="sq"></span><span>007</span></span></div>
-  <div class="body pad-lg">
-    <div class="slab-grid">
-      <div class="stack">
-        <h1 class="hero">There is no handoff to design for.</h1>
-        <p class="copy">All four of these happen at Heyra, sometimes on the same project. What they share is that nothing crosses a wall.</p>
-      </div>
-      <div class="ledger-rows">
-        <div class="lrow"><span class="n">01</span><span class="t">Designers ship production code</span></div>
-        <div class="lrow"><span class="n">02</span><span class="t">Designers build it real, engineers harden it</span></div>
-        <div class="lrow"><span class="n">03</span><span class="t">A designer and an engineer on one problem</span></div>
-        <div class="lrow"><span class="n">04</span><span class="t">The titles stop meaning much</span></div>
-        <div class="lrow outcome fill gold"><span class="n"><span class="sq"></span></span><span class="t"><span class="mono">Outcome</span>The handoff disappeared</span></div>
-      </div>
+  <div class="rail"><span>How Heyra works now</span><span class="idx"><span class="sq"></span><span>007</span></span></div>
+  <div class="body pad-lg" style="gap:clamp(16px,2.4vh,32px)">
+    <div class="stack-sm">
+      <h1 class="h1" style="max-width:24ch">There is no handoff to design for.</h1>
+      <p class="copy" style="max-width:60ch">One repo. Designers, engineers and agents each take a branch, a person reviews it, and it merges straight into the product.</p>
+    </div>
+    <div class="flowmap">
+      <svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="One main line, the product. A designer, an engineer and an agent each branch off it, commit work, and merge back in after a review. The line ends live.">
+        <path class="br" d="M90 200 C125 200 125 80 160 80 L460 80 C495 80 495 200 530 200"/>
+        <path class="br" d="M320 200 C355 200 355 320 390 320 L710 320 C745 320 745 200 780 200"/>
+        <path class="br" d="M590 200 C625 200 625 80 660 80 L960 80 C995 80 995 200 1030 200"/>
+        <line class="main" x1="30" y1="200" x2="1090" y2="200"/>
+        <g class="cm"><circle cx="230" cy="80" r="9"/><circle cx="310" cy="80" r="9"/><circle cx="390" cy="80" r="9"/>
+          <circle cx="470" cy="320" r="9"/><circle cx="550" cy="320" r="9"/><circle cx="630" cy="320" r="9"/>
+          <circle cx="730" cy="80" r="9"/><circle cx="810" cy="80" r="9"/><circle cx="890" cy="80" r="9"/></g>
+        <text class="who" x="170" y="44">Designer</text><text class="what" x="290" y="44">builds the screen in code</text>
+        <text class="who" x="400" y="374">Engineer</text><text class="what" x="520" y="374">hardens it</text>
+        <text class="who" x="670" y="44">Agent</text><text class="what" x="752" y="44">builds against the spec</text>
+        <g class="mg"><rect x="521" y="191" width="18" height="18"/><rect x="771" y="191" width="18" height="18"/><rect x="1021" y="191" width="18" height="18"/></g>
+        <text class="lbl" x="530" y="238">Review</text><text class="lbl" x="780" y="176">Review</text><text class="lbl" x="1030" y="238">Review</text>
+        <text class="lbl" x="30" y="238" style="text-anchor:start">main · the product</text>
+        <rect class="live" x="1090" y="178" width="96" height="44" rx="2"/><text class="livet" x="1138" y="206">Live</text>
+      </svg>
     </div>
   </div>
 </div>
